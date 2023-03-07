@@ -12,7 +12,6 @@ module.exports = {
         filename: '[name].js',
         sourceMapFilename: '[name].map',
         chunkFilename: '[id].js',
-        libraryTarget: 'commonjs2',
         environment: {
             module: true
         }
