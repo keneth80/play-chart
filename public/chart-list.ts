@@ -13,7 +13,7 @@
 
 // execute();
 
-import '../src/style.css';
+import './style.css';
 
 import {BaseType, select, Selection} from 'd3-selection';
 import {max} from 'd3-array';

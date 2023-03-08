@@ -1,4 +1,6 @@
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
 const helpers = require('./helpers');
 
 module.exports = {
@@ -36,6 +38,10 @@ module.exports = {
                 }
             },
             {
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader']
+            },
+            {
                 test: /\.(js)x?$/,
                 exclude: /node_modules/,
                 use: {
@@ -51,6 +57,24 @@ module.exports = {
         new CleanWebpackPlugin({
             root: helpers.root(),
             verbose: true
-        })
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, '../src/component/mock-data'),
+                    to: path.resolve(__dirname, '../dist/component/mock-data')
+                },
+                {
+                    from: path.resolve(__dirname, '../src/assets/css'),
+                    to: path.resolve(__dirname, '../dist/assets/css')
+                },
+                {
+                    from: path.resolve(__dirname, '../src/assets/image'),
+                    to: path.resolve(__dirname, '../dist/assets/image')
+                }
+            ]
+        }),
+
+        new webpack.HotModuleReplacementPlugin()
     ]
 };

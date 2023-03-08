@@ -3,7 +3,6 @@
 const {merge} = require('webpack-merge');
 const exampleConfig = require('./webpack.config.example');
 const helpers = require('./helpers');
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 const example = (process.env.EXAMPLE || 'item-list').trim();
 
@@ -26,13 +25,5 @@ module.exports = merge(exampleConfig, {
     devServer: {
         historyApiFallback: true,
         stats: 'minimal'
-    },
-
-    plugins: [
-        new HtmlWebPackPlugin({
-            template: helpers.root() + '/examples/public/index.html',
-            filename: helpers.root() + `/examples/${example}/index.html`,
-            inject: true
-        })
-    ]
+    }
 });

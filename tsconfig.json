@@ -27,7 +27,7 @@
         "resolveJsonModule": true,
         "baseUrl": ".",
         "outDir": "dist/mjs",
-        "types": ["node", "reflect-metadata"],
+        "types": ["node"],
         "plugins": [
             {"transform": "typescript-transform-paths"},
             {
