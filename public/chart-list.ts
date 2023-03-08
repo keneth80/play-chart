@@ -51,6 +51,7 @@ import {centerPositionForTooltipElement} from '../src/component/chart/util/toolt
 import {topologyData} from '../src/component/mock-data/topology-data';
 import {TopologyGroupElement, TopologyData} from '../src/component/series';
 import {BasicDonutSeries} from '../src/component/series/svg/basic-donut-series';
+import {BasicGaugeSeries} from '../src/component/series/svg/basic-gauge-series';
 import {SvgTraceChart, WebglTraceChart, CanvasTraceChart} from '../src/line';
 
 let chart: PlayChart;
@@ -187,6 +188,9 @@ const buttonMapping = () => {
                             break;
                         case 'svg-donut-series':
                             donutChart();
+                            break;
+                        case 'svg-gauge-series':
+                            gaugeChart();
                             break;
                         default:
                             break;
@@ -2047,6 +2051,31 @@ const axisCustomMargin = () => {
     (select('#json-configuration').node() as any).innerHTML = JSON.stringify(commonConfiguration, null, '\t');
 
     chart = CanvasTraceChart(commonConfiguration, seriesList.concat(alarmSeriesList), optionList).draw();
+};
+
+const gaugeChart = () => {
+    const basicGaugeSereis = new BasicGaugeSeries({
+        clipWidth: 100,
+        clipHeight: 110,
+        ringWidth: 30,
+        minValue: 0,
+        maxValue: 100,
+        transitionMs: 300
+    });
+
+    new PlayChart({
+        selector: '#chart-div',
+        data: [37],
+        margin: {
+            top: 10,
+            right: 0,
+            bottom: 30,
+            left: 0
+        },
+        isResize: true,
+        axes: [],
+        series: [basicGaugeSereis]
+    }).draw();
 };
 
 delayExcute(200, () => {
