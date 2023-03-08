@@ -91,7 +91,7 @@ export class ChartBase<T = any> implements IChartBase {
 
     protected tooltipTemplete: any = baseTooltipTemplate;
 
-    protected margin: any = {
+    protected margin: Margin = {
         top: 25,
         left: 20,
         bottom: 30,
@@ -163,7 +163,7 @@ export class ChartBase<T = any> implements IChartBase {
         right: null
     };
 
-    private axisTitleMargin: any = {
+    private axisTitleMargin: Margin = {
         top: 0,
         left: 0,
         bottom: 0,
@@ -196,9 +196,7 @@ export class ChartBase<T = any> implements IChartBase {
 
     private legendPadding = 5;
 
-    private currentLegend: any = null;
-
-    private currentLegendNode: any = null;
+    private currentLegend: string = null;
 
     private isLegendCheckBox = true;
 

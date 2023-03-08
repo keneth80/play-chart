@@ -21,9 +21,9 @@
             "import": "./dist/mjs/index.js",
             "require": "./dist/cjs/index.js"
         },
-        "./core": {
-            "import": "./dist/mjs/core.js",
-            "require": "./dist/cjs/core.js"
+        "./spider": {
+            "import": "./dist/mjs/spider.js",
+            "require": "./dist/cjs/spider.js"
         }
     },
     "files": [
@@ -34,8 +34,8 @@
     ],
     "typesVersions": {
         "*": {
-            "core": [
-                "dist/types/core.d.ts"
+            "spider": [
+                "dist/types/spider.d.ts"
             ]
         }
     },

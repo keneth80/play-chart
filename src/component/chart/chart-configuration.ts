@@ -80,6 +80,8 @@ export interface Margin {
     bottom?: number;
 
     right?: number;
+
+    [key: string]: number;
 }
 
 export interface PlacementByElement {
@@ -90,6 +92,8 @@ export interface PlacementByElement {
     bottom: any;
 
     right: any;
+
+    [key: string]: any;
 }
 
 export interface ChartTitle {
