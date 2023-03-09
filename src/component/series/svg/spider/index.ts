@@ -82,6 +82,7 @@ export class SpiderSeries extends SeriesBase {
             guideLine.push(point);
         }
         const mainTransform = getTransformByArray(this.mainGroup.attr('transform'));
+        this.mainGroup.attr('clip-path', null);
         this.mainGroup.attr('transform', `translate(${geometry.width / 2 - width / 2}, ${mainTransform[1]})`);
 
         // draw tick labels
