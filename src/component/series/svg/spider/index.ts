@@ -26,7 +26,6 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
 
 export class SpiderSeries extends SeriesBase {
     private domain: [number, number];
-    private range: [number, number];
     private features: Array<string>;
     private tickCount: number;
 
@@ -35,7 +34,6 @@ export class SpiderSeries extends SeriesBase {
         if (configuration) {
             this.selector = configuration.selector || 'spider';
             this.domain = configuration.domain || [0, 10];
-            this.range = configuration.range || [0, 250];
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tickCount = configuration.tickCount;
         }
@@ -64,11 +62,14 @@ export class SpiderSeries extends SeriesBase {
 
     drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize) {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
-        const radialScale = scaleLinear().domain(this.domain).range(this.range);
+
         const width = Math.min(geometry.width, geometry.height);
         const height = width;
+        const radialScale = scaleLinear()
+            .domain(this.domain)
+            .range([0, width / 2 - 50]);
         const ticks = radialScale.ticks(this.tickCount);
-        console.log('radialScale : ', chartData, geometry, this.features, this.domain, this.range);
+        console.log('radialScale : ', chartData, geometry, this.features, this.domain);
         const guideLine: Array<SpiderData> = [];
 
         for (let i = 0; i < ticks.length; i++) {
@@ -96,7 +97,7 @@ export class SpiderSeries extends SeriesBase {
                 name: f,
                 angle: angle,
                 lineValue: angleToCoordinate(angle, radialScale(10), width, height),
-                labelValue: angleToCoordinate(angle, radialScale(10.5), width, height)
+                labelValue: angleToCoordinate(angle, radialScale(11), width, height)
             };
         });
 
@@ -164,8 +165,9 @@ export class SpiderSeries extends SeriesBase {
                     enter
                         .append('text')
                         .attr('class', 'axis-label')
-                        .attr('x', (d) => d.lineValue.x)
-                        .attr('y', (d) => d.lineValue.y)
+                        .style('text-anchor', 'middle')
+                        .attr('x', (d) => d.labelValue.x)
+                        .attr('y', (d) => d.labelValue.y)
                         .text((d) => d.name)
             );
 
