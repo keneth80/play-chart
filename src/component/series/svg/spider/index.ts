@@ -68,8 +68,11 @@ export class SpiderSeries extends SeriesBase {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
 
         const width = Math.min(geometry.width, geometry.height);
+        console.log('width : ', width, geometry);
         const height = width;
-        const radialScale = scaleLinear().domain(this.domain).range([0, 150]);
+        const radialScale = scaleLinear()
+            .domain(this.domain)
+            .range([0, width / 2 - 50]);
         const ticks = radialScale.ticks(this.tickCount);
         const guideLine: Array<SpiderData> = [];
 
