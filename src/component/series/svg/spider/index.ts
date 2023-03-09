@@ -22,12 +22,14 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
     range: [number, number];
     features: Array<string>;
     tickCount: number;
+    labelFmt?: Function;
 }
 
 export class SpiderSeries extends SeriesBase {
     private domain: [number, number];
     private features: Array<string>;
     private tickCount: number;
+    private labelFmt: Function;
 
     constructor(configuration: SpiderSeriesConfiguration) {
         super(configuration);
@@ -36,6 +38,7 @@ export class SpiderSeries extends SeriesBase {
             this.domain = configuration.domain || [0, 10];
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tickCount = configuration.tickCount;
+            this.labelFmt = configuration.labelFmt || undefined;
         }
     }
 
@@ -65,9 +68,7 @@ export class SpiderSeries extends SeriesBase {
 
         const width = Math.min(geometry.width, geometry.height);
         const height = width;
-        const radialScale = scaleLinear()
-            .domain(this.domain)
-            .range([0, width / 2 - 50]);
+        const radialScale = scaleLinear().domain(this.domain).range([0, 150]);
         const ticks = radialScale.ticks(this.tickCount);
         console.log('radialScale : ', chartData, geometry, this.features, this.domain);
         const guideLine: Array<SpiderData> = [];
@@ -92,7 +93,7 @@ export class SpiderSeries extends SeriesBase {
             );
 
         const featureData = this.features.map((f: string, i: number) => {
-            const angle = Math.PI / 2 + (2 * Math.PI * i) / this.features.length;
+            const angle = getAngle(i, this.features.length);
             return {
                 name: f,
                 angle: angle,
@@ -100,8 +101,6 @@ export class SpiderSeries extends SeriesBase {
                 labelValue: angleToCoordinate(angle, radialScale(11), width, height)
             };
         });
-
-        console.log('featureData : ', featureData);
 
         // draw axis line
         this.mainGroup
@@ -168,7 +167,7 @@ export class SpiderSeries extends SeriesBase {
                         .style('text-anchor', 'middle')
                         .attr('x', (d) => d.labelValue.x)
                         .attr('y', (d) => d.labelValue.y)
-                        .text((d) => d.name)
+                        .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
             );
 
         const lineParser = line<DataPosition>()
@@ -218,6 +217,10 @@ export class SpiderSeries extends SeriesBase {
     }
 }
 
+function getAngle(index: number, featuresLength: number): number {
+    return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;
+}
+
 function angleToCoordinate(angle: number, value: number, width: number, height: number) {
     let x = Math.cos(angle) * value;
     let y = Math.sin(angle) * value;
@@ -227,7 +230,7 @@ function angleToCoordinate(angle: number, value: number, width: number, height: 
 function getPathCoordinates(dataPoint: SpiderData, features: Array<string>, width: number, height: number, radialScale: any) {
     const coordinates = [];
     for (let i = 0; i < features.length; i++) {
-        const angle = Math.PI / 2 + (2 * Math.PI * i) / features.length;
+        const angle = getAngle(i, features.length);
         coordinates.push(angleToCoordinate(angle, radialScale(dataPoint[features[i]]), width, height));
     }
     return coordinates;

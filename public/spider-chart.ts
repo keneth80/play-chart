@@ -33,6 +33,18 @@ const spider = () => {
             F: 1.270447060499519
         }
     ];
+
+    // const
+    const SWING_SPIDER = {
+        A: '스윙궤도',
+        B: '리듬',
+        C: '최고 속력구간',
+        D: '상-하체 꼬임',
+        E: '스윙순서',
+        F: '자세'
+    };
+    const features = Object.keys(data[0]).sort();
+    // const labels = ['스윙궤도', '리듬', '최고 속력구간', '상-하체 꼬임', '스윙순서', '자세'];
     const basicPieChart = new PlayChart({
         selector: '#chart-div',
         data,
@@ -51,8 +63,11 @@ const spider = () => {
                 selector: 'sipder',
                 domain: [0, 10],
                 range: [0, 250],
-                features: Object.keys(data[0]),
-                tickCount: 5
+                features,
+                tickCount: 5,
+                labelFmt: (d: string) => {
+                    return SWING_SPIDER[d];
+                }
             })
         ]
     }).draw();
