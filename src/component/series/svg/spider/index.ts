@@ -14,6 +14,12 @@ interface DataPosition {
     y: number;
 }
 
+interface ITick {
+    tickCount: number;
+    tickLabel: Function;
+    tickVisible?: boolean;
+}
+
 export interface SpiderData {
     [key: string]: number;
 }
@@ -22,15 +28,15 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     range: [number, number];
     features: Array<string>;
-    tickCount: number;
     labelFmt?: Function;
+    tick: ITick;
 }
 
 export class SpiderSeries extends SeriesBase {
     private domain: [number, number];
     private features: Array<string>;
-    private tickCount: number;
     private labelFmt: Function;
+    private tick: ITick;
 
     constructor(configuration: SpiderSeriesConfiguration) {
         super(configuration);
@@ -38,7 +44,7 @@ export class SpiderSeries extends SeriesBase {
             this.selector = configuration.selector || 'spider';
             this.domain = configuration.domain || [0, 10];
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
-            this.tickCount = configuration.tickCount;
+            this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
         }
     }
@@ -73,7 +79,7 @@ export class SpiderSeries extends SeriesBase {
         const radialScale = scaleLinear()
             .domain(this.domain)
             .range([0, width / 2 - 50]);
-        const ticks = radialScale.ticks(this.tickCount);
+        const ticks = radialScale.ticks(this.tick.tickCount);
         const guideLine: Array<SpiderData> = [];
 
         for (let i = 0; i < ticks.length; i++) {
@@ -85,17 +91,19 @@ export class SpiderSeries extends SeriesBase {
         this.mainGroup.attr('transform', `translate(${geometry.width / 2 - width / 2}, ${mainTransform[1]})`);
 
         // draw tick labels
-        this.mainGroup
-            .selectAll('.ticklabel')
-            .data(ticks)
-            .join((enter: Selection<EnterElement, number, BaseType, any>) =>
-                enter
-                    .append('text')
-                    .attr('class', 'ticklabel')
-                    .attr('x', width / 2 + 5)
-                    .attr('y', (d: number) => height / 2 - radialScale(d))
-                    .text((d: number) => d.toString())
-            );
+        if (this.tick.tickVisible !== false) {
+            this.mainGroup
+                .selectAll('.ticklabel')
+                .data(ticks)
+                .join((enter: Selection<EnterElement, number, BaseType, any>) =>
+                    enter
+                        .append('text')
+                        .attr('class', 'ticklabel')
+                        .attr('x', width / 2 + 5)
+                        .attr('y', (d: number) => height / 2 - radialScale(d))
+                        .text((d: number) => d.toString())
+                );
+        }
 
         const featureData = this.features.map((f: string, i: number) => {
             const angle = getAngle(i, this.features.length);
