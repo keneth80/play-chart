@@ -2,11 +2,11 @@ import {BaseType} from 'd3';
 import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
 import {line} from 'd3-shape';
-import {ChartSelector} from 'src/component/chart';
+import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
-import {defaultChartColors} from 'src/component/chart/util/chart-util';
+import {defaultChartColors} from '../../../../component/chart/util/chart-util';
 
 interface DataPosition {
     x: number;
@@ -21,12 +21,14 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     range: [number, number];
     features: Array<string>;
+    tickCount: number;
 }
 
 export class SpiderSeries extends SeriesBase {
     private domain: [number, number];
     private range: [number, number];
     private features: Array<string>;
+    private tickCount: number;
 
     constructor(configuration: SpiderSeriesConfiguration) {
         super(configuration);
@@ -35,6 +37,7 @@ export class SpiderSeries extends SeriesBase {
             this.domain = configuration.domain || [0, 10];
             this.range = configuration.range || [0, 250];
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
+            this.tickCount = configuration.tickCount;
         }
     }
 
@@ -42,24 +45,16 @@ export class SpiderSeries extends SeriesBase {
         this.svg = svg;
         this.mainGroup = mainGroup;
         mainGroup
-            .selectAll('.sipder-series')
-            .data([`.${this.selector}-series-group`])
+            .selectAll('.spider-series')
+            .data([`${this.selector}-series-group`])
             .join(
                 (enter: Selection<EnterElement, string, BaseType, any>) => enter.append('g').attr('class', (d: string) => d),
                 (update: Selection<BaseType, any, BaseType, any>) => update,
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             );
         mainGroup
-            .selectAll('.sipder-series')
-            .data([`.${this.selector}-guide-group`])
-            .join(
-                (enter: Selection<EnterElement, string, BaseType, any>) => enter.append('g').attr('class', (d: string) => d),
-                (update: Selection<BaseType, any, BaseType, any>) => update,
-                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
-            );
-        mainGroup
-            .selectAll('.sipder-series')
-            .data([`.${this.selector}-guide-end-group`])
+            .selectAll('.spider-series')
+            .data([`${this.selector}-guide-group`])
             .join(
                 (enter: Selection<EnterElement, string, BaseType, any>) => enter.append('g').attr('class', (d: string) => d),
                 (update: Selection<BaseType, any, BaseType, any>) => update,
@@ -69,10 +64,11 @@ export class SpiderSeries extends SeriesBase {
 
     drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize) {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
+        const radialScale = scaleLinear().domain(this.domain).range(this.range);
         const width = Math.min(geometry.width, geometry.height);
         const height = width;
-        const radialScale = scaleLinear().domain(this.domain).range(this.range);
-        const ticks = [2, 4, 6, 8, 10];
+        const ticks = radialScale.ticks(this.tickCount);
+        console.log('radialScale : ', chartData, geometry, this.features, this.domain, this.range);
         const guideLine: Array<SpiderData> = [];
 
         for (let i = 0; i < ticks.length; i++) {
@@ -99,10 +95,12 @@ export class SpiderSeries extends SeriesBase {
             return {
                 name: f,
                 angle: angle,
-                lineValue: angleToCoordinate(angle, 10, width, height),
-                labelValue: angleToCoordinate(angle, 10.5, width, height)
+                lineValue: angleToCoordinate(angle, radialScale(10), width, height),
+                labelValue: angleToCoordinate(angle, radialScale(10.5), width, height)
             };
         });
+
+        console.log('featureData : ', featureData);
 
         // draw axis line
         this.mainGroup
@@ -143,36 +141,49 @@ export class SpiderSeries extends SeriesBase {
         this.mainGroup
             .selectAll('.axis-label')
             .data(featureData)
-            .join((enter) =>
-                enter
-                    .append('text')
-                    .attr('class', 'axis-label')
-                    .attr('x', (d) => d.lineValue.x)
-                    .attr('y', (d) => d.lineValue.y)
-                    .text((d) => d.name)
+            .join(
+                (
+                    enter: Selection<
+                        EnterElement,
+                        {
+                            name: string;
+                            angle: number;
+                            lineValue: {
+                                x: number;
+                                y: number;
+                            };
+                            labelValue: {
+                                x: number;
+                                y: number;
+                            };
+                        },
+                        BaseType,
+                        any
+                    >
+                ) =>
+                    enter
+                        .append('text')
+                        .attr('class', 'axis-label')
+                        .attr('x', (d) => d.lineValue.x)
+                        .attr('y', (d) => d.lineValue.y)
+                        .text((d) => d.name)
             );
 
         const lineParser = line<DataPosition>()
             .x((d: DataPosition) => d.x)
             .y((d: DataPosition) => d.y);
+
         const colors = defaultChartColors();
-        // test
-        const data: Array<SpiderData> = [];
-        for (var i = 0; i < 2; i++) {
-            const point: SpiderData = {};
-            //each feature will be a random number from 1-9
-            this.features.forEach((f) => (point[f] = 1 + Math.random() * 8));
-            data.push(point);
-        }
+
         // draw the path element
-        this.mainGroup
-            .select(`.${this.selector}-series-group`)
-            .selectAll('.sipder-path')
-            .data(data)
+        const seriesGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-series-group`);
+        seriesGroup
+            .selectAll('.spider-path')
+            .data(chartData)
             .join((enter: any) =>
                 enter
                     .append('path')
-                    .attr('class', 'sipder-path')
+                    .attr('class', 'spider-path')
                     .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                     .attr('d', lineParser)
                     .attr('stroke-width', 3)
@@ -184,12 +195,12 @@ export class SpiderSeries extends SeriesBase {
 
         this.mainGroup
             .select(`.${this.selector}-guide-group`)
-            .selectAll('.sipder-guide-path')
+            .selectAll('.spider-guide-path')
             .data(guideLine)
             .join((enter: any) =>
                 enter
                     .append('path')
-                    .attr('class', 'sipder-guide-path')
+                    .attr('class', 'spider-guide-path')
                     .datum((d: SpiderData) => {
                         const coordinates = getPathCoordinates(d, this.features, width, height, radialScale);
                         coordinates.push(coordinates[0]);

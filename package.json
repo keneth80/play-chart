@@ -4,9 +4,9 @@
     "description": "webpack example by library",
     "scripts": {
         "serve": "webpack serve --port 8088",
-        "ex:build:run:chart-list": "cross-env NODE_ENV=example MODE=production EXAMPLE=chart-list webpack --progress && ttsc && lite-server --baseDir=examples/chart-list",
-        "ex:run:chart-list": "lite-server --baseDir=examples/chart-list",
-        "serve:ex:chart-list": "cross-env EXAMPLE=chart-list webpack-dev-server --stats-error-details --config ./webpack-config/webpack.config.example.js",
+        "ex:build:run:spider-chart": "cross-env NODE_ENV=example MODE=production EXAMPLE=spider-chart webpack --progress && ttsc && lite-server --baseDir=examples/spider-chart",
+        "ex:run:spider-chart": "lite-server --baseDir=examples/spider-chart",
+        "serve:ex:spider-chart": "cross-env EXAMPLE=spider-chart webpack-dev-server --stats-error-details --config ./webpack-config/webpack.config.example.js",
         "open-report": "webpack-bundle-analyzer dist/report/stats.json",
         "build": "rm -fr dist/* && cross-env NODE_ENV=production webpack && (npm run mjs & npm run cjs)",
         "cjs": "ttsc -p tsconfig-cjs.json",

@@ -52,7 +52,6 @@ import {topologyData} from '../src/component/mock-data/topology-data';
 import {TopologyGroupElement, TopologyData} from '../src/component/series';
 import {BasicDonutSeries} from '../src/component/series/svg/basic-donut-series';
 import {BasicGaugeSeries} from '../src/component/series/svg/basic-gauge-series';
-import {SvgTraceChart, WebglTraceChart, CanvasTraceChart} from '../src/line';
 
 let chart: PlayChart;
 let currentSubscription: Subscription;

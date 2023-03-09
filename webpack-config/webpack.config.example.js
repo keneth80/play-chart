@@ -80,7 +80,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             inject: true,
             title: example,
-            template: helpers.root() + `/public/index.html`,
+            template: helpers.root() + `/public/${example}.html`,
             filename: helpers.root() + `/examples/${example}/index.html`
         })
     ]
