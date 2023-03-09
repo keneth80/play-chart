@@ -11,18 +11,18 @@ import {SeriesConfiguration, SeriesType} from '../series.interface';
 
 export const defaultChartColors = () => {
     return [
+        '#FF4560',
+        '#008FFB',
+        '#00E396',
+        '#775DD0',
         '#A300D6',
-        '#7D02EB',
-        '#5653FE',
-        '#2983FF',
-        '#00B1F2',
-        '#E2C044',
+        '#1B998B',
         '#F46036',
         '#2E294E',
-        '#1B998B',
-        '#C5D86D',
-        '#FD6A6A',
-        '#F9A3A4'
+        '#90EE7E',
+        '#4CAF50',
+        '#81D4FA',
+        '#5653FE'
     ];
 };
 
