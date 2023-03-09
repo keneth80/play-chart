@@ -223,7 +223,7 @@ export class SpiderSeries extends SeriesBase {
             .attr('stroke', (_: SpiderData, i: number) => colors[i])
             .attr('fill', (_: SpiderData, i: number) => colors[i])
             .attr('stroke-opacity', 1)
-            .attr('opacity', 0.5);
+            .attr('opacity', 0.7);
 
         this.mainGroup
             .select(`.${this.selector}-guide-group`)
