@@ -16,7 +16,7 @@ interface DataPosition {
 
 interface ITick {
     tickCount: number;
-    tickLabel: Function;
+    tickLabel?: Function;
     tickVisible?: boolean;
 }
 
@@ -88,6 +88,7 @@ export class SpiderSeries extends SeriesBase {
             guideLine.push(point);
         }
         const mainTransform = getTransformByArray(this.mainGroup.attr('transform'));
+        this.mainGroup.attr('clip-path', null);
         this.mainGroup.attr('transform', `translate(${geometry.width / 2 - width / 2}, ${mainTransform[1]})`);
 
         // draw tick labels
@@ -143,17 +144,16 @@ export class SpiderSeries extends SeriesBase {
                         BaseType,
                         any
                     >
-                ) =>
-                    enter
-                        .append('line')
-                        .attr('class', 'axis-line')
-                        .attr('x1', width / 2)
-                        .attr('y1', height / 2)
-                        .attr('x2', (d) => d.lineValue.x)
-                        .attr('y2', (d) => d.lineValue.y)
-                        .attr('stroke', 'black')
-                        .attr('stroke-opacity', 0.2)
-            );
+                ) => enter.append('line').attr('class', 'axis-line'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr('x1', width / 2)
+            .attr('y1', height / 2)
+            .attr('x2', (d) => d.lineValue.x)
+            .attr('y2', (d) => d.lineValue.y)
+            .attr('stroke', 'black')
+            .attr('stroke-opacity', 0.2);
 
         // draw axis label
         this.mainGroup
@@ -178,23 +178,22 @@ export class SpiderSeries extends SeriesBase {
                         BaseType,
                         any
                     >
-                ) =>
-                    enter
-                        .append('text')
-                        .attr('class', 'axis-label')
-                        .style('text-anchor', (d) => {
-                            if (width / 2 === d.labelValue.x) {
-                                return 'middle';
-                            } else if (width / 2 > d.labelValue.x) {
-                                return 'end';
-                            } else {
-                                return 'start';
-                            }
-                        })
-                        .attr('x', (d) => d.labelValue.x)
-                        .attr('y', (d) => d.labelValue.y)
-                        .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
-            );
+                ) => enter.append('text').attr('class', 'axis-label'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .style('text-anchor', (d) => {
+                if (width / 2 === d.labelValue.x) {
+                    return 'middle';
+                } else if (width / 2 > d.labelValue.x) {
+                    return 'end';
+                } else {
+                    return 'start';
+                }
+            })
+            .attr('x', (d) => d.labelValue.x)
+            .attr('y', (d) => d.labelValue.y)
+            .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name));
 
         const lineParser = line<DataPosition>()
             .x((d: DataPosition) => d.x)
@@ -207,39 +206,55 @@ export class SpiderSeries extends SeriesBase {
         seriesGroup
             .selectAll('.spider-path')
             .data(chartData)
-            .join((enter: any) =>
-                enter
-                    .append('path')
-                    .attr('class', 'spider-path')
-                    .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
-                    .attr('d', lineParser)
-                    .attr('stroke-width', 3)
-                    .attr('stroke', (_: SpiderData, i: number) => colors[i])
-                    .attr('fill', (_: SpiderData, i: number) => colors[i])
-                    .attr('stroke-opacity', 1)
-                    .attr('opacity', 0.5)
-            );
+            .join(
+                (enter: any) =>
+                    enter
+                        .append('path')
+                        .attr('class', 'spider-path')
+                        .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
+                        .attr('d', lineParser),
+                (update: Selection<BaseType, any, BaseType, any>) =>
+                    update
+                        .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
+                        .attr('d', lineParser as any),
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr('stroke-width', 3)
+            .attr('stroke', (_: SpiderData, i: number) => colors[i])
+            .attr('fill', (_: SpiderData, i: number) => colors[i])
+            .attr('stroke-opacity', 1)
+            .attr('opacity', 0.5);
 
         this.mainGroup
             .select(`.${this.selector}-guide-group`)
             .selectAll('.spider-guide-path')
             .data(guideLine)
-            .join((enter: any) =>
-                enter
-                    .append('path')
-                    .attr('class', 'spider-guide-path')
-                    .datum((d: SpiderData) => {
-                        const coordinates = getPathCoordinates(d, this.features, width, height, radialScale);
-                        coordinates.push(coordinates[0]);
-                        return coordinates;
-                    })
-                    .attr('d', lineParser)
-                    .attr('stroke-width', 1)
-                    .attr('stroke', 'black')
-                    .attr('fill', 'white')
-                    .attr('fill-opacity', 0)
-                    .attr('opacity', 0.1)
-            );
+            .join(
+                (enter: any) =>
+                    enter
+                        .append('path')
+                        .attr('class', 'spider-guide-path')
+                        .datum((d: SpiderData) => {
+                            const coordinates = getPathCoordinates(d, this.features, width, height, radialScale);
+                            coordinates.push(coordinates[0]);
+                            return coordinates;
+                        })
+                        .attr('d', lineParser),
+                (update: any) =>
+                    update
+                        .datum((d: SpiderData) => {
+                            const coordinates = getPathCoordinates(d, this.features, width, height, radialScale);
+                            coordinates.push(coordinates[0]);
+                            return coordinates;
+                        })
+                        .attr('d', lineParser),
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr('stroke-width', 1)
+            .attr('stroke', 'black')
+            .attr('fill', 'white')
+            .attr('fill-opacity', 0)
+            .attr('opacity', 0.1);
     }
 }
 

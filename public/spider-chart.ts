@@ -64,7 +64,10 @@ const spider = () => {
                 domain: [0, 10],
                 range: [0, 250],
                 features,
-                tickCount: 5,
+                tick: {
+                    tickCount: 5,
+                    tickVisible: false
+                },
                 labelFmt: (d: string) => {
                     return SWING_SPIDER[d];
                 }
