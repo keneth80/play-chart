@@ -1,6 +1,6 @@
 import { Selection } from 'd3-selection';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { Axes, ChartConfiguration, ChartTooltip } from './chart-configuration';
+import { Axes, ChartConfiguration, ChartTooltip, Margin } from './chart-configuration';
 import { ChartItemEvent, ChartMouseEvent, ChartZoomEvent, DisplayType, IChartBase, Scale, TooltipEvent } from './chart.interface';
 import { IFunctions } from './functions.interface';
 import { IOptions } from './options.interface';
@@ -33,7 +33,7 @@ export declare class ChartBase<T = any> implements IChartBase {
     protected chartClickSubject: Subject<any>;
     protected tooltipGroup: Selection<any, any, HTMLElement, any>;
     protected tooltipTemplete: any;
-    protected margin: any;
+    protected margin: Margin;
     protected defaultTitleStyle: any;
     protected defaultLegendStyle: any;
     protected defaultAxisLabelStyle: any;
@@ -59,7 +59,6 @@ export declare class ChartBase<T = any> implements IChartBase {
     private legendContainerSize;
     private legendPadding;
     private currentLegend;
-    private currentLegendNode;
     private isLegendCheckBox;
     private isLegendAll;
     private chartLegend;

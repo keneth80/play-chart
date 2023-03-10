@@ -115,7 +115,6 @@ var ChartBase = /** @class */ (function () {
         };
         this.legendPadding = 5;
         this.currentLegend = null;
-        this.currentLegendNode = null;
         this.isLegendCheckBox = true;
         this.isLegendAll = true;
         this.isLegendAllHide = false;

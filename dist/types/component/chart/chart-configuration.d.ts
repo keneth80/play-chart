@@ -69,12 +69,14 @@ export interface Margin {
     left?: number;
     bottom?: number;
     right?: number;
+    [key: string]: number;
 }
 export interface PlacementByElement {
     top: any;
     left: any;
     bottom: any;
     right: any;
+    [key: string]: any;
 }
 export interface ChartTitle {
     placement: string;
