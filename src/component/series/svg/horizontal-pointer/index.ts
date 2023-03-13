@@ -9,7 +9,6 @@ import {SeriesConfiguration} from '../../../../component/chart/series.interface'
 export interface HorizontalPointerSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     unit: string;
-    data: number;
 }
 
 const CHART_MARGIN = {
@@ -19,10 +18,12 @@ const CHART_MARGIN = {
 
 export class HorizontalPointerSeries extends SeriesBase {
     private domain: [number, number];
+    private unit: string;
     constructor(configuration: HorizontalPointerSeriesConfiguration) {
         super(configuration);
         if (configuration) {
             this.domain = configuration.domain;
+            this.unit = configuration.unit;
         }
     }
 
@@ -70,7 +71,7 @@ export class HorizontalPointerSeries extends SeriesBase {
 
         lineGroup
             .selectAll('.unit')
-            .data(['(초)'])
+            .data([`(${this.unit})`])
             .join(
                 (enter) => enter.append('text').attr('class', 'unit'),
                 (update) => update,
