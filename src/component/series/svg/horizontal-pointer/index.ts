@@ -50,14 +50,15 @@ export class HorizontalPointerSeries extends SeriesBase {
 
     drawSeries(chartData: any, scales: Scale[], geometry: ContainerSize) {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
+        const chartMargin = this.chartBase.chartMargin;
         // circle group position setting
-        const circleGroup = this.mainGroup.selectAll(`${this.selector}-circle-group`);
-        circleGroup.attr('transform', `translate(${CHART_MARGIN.left}, ${geometry.height / 2})`);
+        const circleGroup = this.mainGroup.selectAll(`.${this.selector}-circle-group`);
+        circleGroup.attr('transform', `translate(${chartMargin.left}, ${geometry.height / 2})`);
         // line group position setting
-        const lineGroup = this.mainGroup.selectAll(`${this.selector}-line-group`);
-        lineGroup.attr('transform', `translate(${CHART_MARGIN.left}, ${geometry.height / 2})`);
+        const lineGroup = this.mainGroup.selectAll(`.${this.selector}-line-group`);
+        lineGroup.attr('transform', `translate(${chartMargin.left}, ${geometry.height / 2})`);
 
-        const width = geometry.width - CHART_MARGIN.left - CHART_MARGIN.right;
+        const width = geometry.width - chartMargin.left - chartMargin.right;
         let scale = scaleLinear().domain(this.domain).range([0, width]);
 
         // bottom axis line render
