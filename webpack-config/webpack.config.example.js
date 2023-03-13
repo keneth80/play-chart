@@ -6,6 +6,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const mode = (process.env.MODE || 'development').trim();
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const path = require('path');
 
 module.exports = {
     entry: {
@@ -76,6 +78,12 @@ module.exports = {
         //     filename: '[name].[contenthash].css',
         //     chunkFilename: '[id].[contenthash].css'
         // }),
+        new CopyWebpackPlugin([
+            {
+                from: path.resolve(__dirname, `../public/${example}.css`),
+                to: path.resolve(__dirname, `../examples/${example}/${example}.css`)
+            }
+        ]),
         new FaviconsWebpackPlugin(`${helpers.root()}/src/favicon.ico`),
         new HtmlWebPackPlugin({
             inject: true,
