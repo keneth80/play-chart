@@ -81,7 +81,12 @@ export declare class ChartBase<T = any> implements IChartBase {
     get chartContainer(): Selection<any, any, HTMLElement, any>;
     get webglElementContext(): any;
     get webglCanvasElement(): Selection<any, any, HTMLElement, any>;
-    get chartMargin(): any;
+    get chartMargin(): {
+        left: number;
+        top: number;
+        right: number;
+        bottom: number;
+    };
     set toolTipTemplete(value: any);
     set toolTipTarget(value: any);
     get tooltip(): ChartTooltip;
