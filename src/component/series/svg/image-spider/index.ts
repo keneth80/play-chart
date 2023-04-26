@@ -258,7 +258,7 @@ export class ImageSpiderSeries extends SeriesBase {
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
             .attr('fill', (_: SpiderData, i: number) => (i === 1 ? 'url(#green_angular)' : 'url(#blue_angular)'))
-            .attr('fill-opacity', 0.8);
+            .attr('fill-opacity', 0.9);
 
         const pathGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-guide-group`);
         pathGroup

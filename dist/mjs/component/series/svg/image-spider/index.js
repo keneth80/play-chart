@@ -163,7 +163,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
                 .attr('d', lineParser);
         }, function (exite) { return exite.remove(); })
             .attr('fill', function (_, i) { return (i === 1 ? 'url(#green_angular)' : 'url(#blue_angular)'); })
-            .attr('fill-opacity', 0.8);
+            .attr('fill-opacity', 0.9);
         var pathGroup = this.mainGroup.select(".".concat(this.selector, "-guide-group"));
         pathGroup
             .selectAll('.spider-guide-path')
