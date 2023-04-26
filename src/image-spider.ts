@@ -17,3 +17,5 @@ export const spiderChartBySvg = (configuration: BaseConfiguration, seriesConfigu
 
     return new PlayChart(chartConfiguration);
 };
+
+export {type ImageSpiderSeries, type ImageSpiderSeriesConfiguration};
