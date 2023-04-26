@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SpiderSeries = void 0;
+exports.ImageSpiderSeries = void 0;
 var tslib_1 = require("tslib");
 var d3_scale_1 = require("d3-scale");
 var d3_shape_1 = require("d3-shape");
@@ -8,9 +8,9 @@ var chart_1 = require("../../../../component/chart");
 var series_base_1 = require("../../../../component/chart/series-base");
 var chart_util_1 = require("../../../../component/chart/util/chart-util");
 var util_1 = require("../../../../component/chart/util");
-var SpiderSeries = /** @class */ (function (_super) {
-    tslib_1.__extends(SpiderSeries, _super);
-    function SpiderSeries(configuration) {
+var ImageSpiderSeries = /** @class */ (function (_super) {
+    tslib_1.__extends(ImageSpiderSeries, _super);
+    function ImageSpiderSeries(configuration) {
         var _this = _super.call(this, configuration) || this;
         if (configuration) {
             _this.selector = configuration.selector || 'spider';
@@ -21,7 +21,7 @@ var SpiderSeries = /** @class */ (function (_super) {
         }
         return _this;
     }
-    SpiderSeries.prototype.setSvgElement = function (svg, mainGroup) {
+    ImageSpiderSeries.prototype.setSvgElement = function (svg, mainGroup) {
         this.svg = svg;
         this.mainGroup = mainGroup;
         mainGroup
@@ -33,11 +33,10 @@ var SpiderSeries = /** @class */ (function (_super) {
             .data(["".concat(this.selector, "-guide-group")])
             .join(function (enter) { return enter.append('g').attr('class', function (d) { return d; }); }, function (update) { return update; }, function (exite) { return exite.remove(); });
     };
-    SpiderSeries.prototype.drawSeries = function (chartData, scales, geometry) {
+    ImageSpiderSeries.prototype.drawSeries = function (chartData, scales, geometry) {
         var _this = this;
         this.svg.select('.' + chart_1.ChartSelector.ZOOM_SVG).lower();
         var width = Math.min(geometry.width, geometry.height);
-        console.log('width : ', width, geometry);
         var height = width;
         var radialScale = (0, d3_scale_1.scaleLinear)()
             .domain(this.domain)
@@ -196,9 +195,9 @@ var SpiderSeries = /** @class */ (function (_super) {
             .attr('stroke', 'black')
             .attr('fill', 'url(#spider_guide)');
     };
-    return SpiderSeries;
+    return ImageSpiderSeries;
 }(series_base_1.SeriesBase));
-exports.SpiderSeries = SpiderSeries;
+exports.ImageSpiderSeries = ImageSpiderSeries;
 function getAngle(index, featuresLength) {
     return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;
 }

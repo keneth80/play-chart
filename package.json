@@ -30,6 +30,10 @@
         "./spider": {
             "import": "./dist/mjs/spider.js",
             "require": "./dist/cjs/spider.js"
+        },
+        "./image-spider": {
+            "import": "./dist/mjs/image-spider.js",
+            "require": "./dist/cjs/image-spider.js"
         }
     },
     "files": [
@@ -42,6 +46,9 @@
         "*": {
             "spider": [
                 "dist/types/spider.d.ts"
+            ],
+            "image-spider": [
+                "dist/types/image-spider.d.ts"
             ]
         }
     },

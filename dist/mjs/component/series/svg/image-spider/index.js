@@ -5,9 +5,9 @@ import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { defaultChartColors } from '../../../../component/chart/util/chart-util';
 import { getTransformByArray } from '../../../../component/chart/util';
-var SpiderSeries = /** @class */ (function (_super) {
-    __extends(SpiderSeries, _super);
-    function SpiderSeries(configuration) {
+var ImageSpiderSeries = /** @class */ (function (_super) {
+    __extends(ImageSpiderSeries, _super);
+    function ImageSpiderSeries(configuration) {
         var _this = _super.call(this, configuration) || this;
         if (configuration) {
             _this.selector = configuration.selector || 'spider';
@@ -18,7 +18,7 @@ var SpiderSeries = /** @class */ (function (_super) {
         }
         return _this;
     }
-    SpiderSeries.prototype.setSvgElement = function (svg, mainGroup) {
+    ImageSpiderSeries.prototype.setSvgElement = function (svg, mainGroup) {
         this.svg = svg;
         this.mainGroup = mainGroup;
         mainGroup
@@ -30,11 +30,10 @@ var SpiderSeries = /** @class */ (function (_super) {
             .data(["".concat(this.selector, "-guide-group")])
             .join(function (enter) { return enter.append('g').attr('class', function (d) { return d; }); }, function (update) { return update; }, function (exite) { return exite.remove(); });
     };
-    SpiderSeries.prototype.drawSeries = function (chartData, scales, geometry) {
+    ImageSpiderSeries.prototype.drawSeries = function (chartData, scales, geometry) {
         var _this = this;
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
         var width = Math.min(geometry.width, geometry.height);
-        console.log('width : ', width, geometry);
         var height = width;
         var radialScale = scaleLinear()
             .domain(this.domain)
@@ -193,9 +192,9 @@ var SpiderSeries = /** @class */ (function (_super) {
             .attr('stroke', 'black')
             .attr('fill', 'url(#spider_guide)');
     };
-    return SpiderSeries;
+    return ImageSpiderSeries;
 }(SeriesBase));
-export { SpiderSeries };
+export { ImageSpiderSeries };
 function getAngle(index, featuresLength) {
     return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;
 }

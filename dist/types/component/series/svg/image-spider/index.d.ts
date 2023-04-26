@@ -11,19 +11,19 @@ interface ITick {
 export interface SpiderData {
     [key: string]: number;
 }
-export interface SpiderSeriesConfiguration extends SeriesConfiguration {
+export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     range: [number, number];
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
 }
-export declare class SpiderSeries extends SeriesBase {
+export declare class ImageSpiderSeries extends SeriesBase {
     private domain;
     private features;
     private labelFmt;
     private tick;
-    constructor(configuration: SpiderSeriesConfiguration);
+    constructor(configuration: ImageSpiderSeriesConfiguration);
     setSvgElement(svg: Selection<BaseType, any, HTMLElement, any>, mainGroup: Selection<BaseType, any, HTMLElement, any>): void;
     drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize): void;
 }

@@ -24,7 +24,7 @@ export interface SpiderData {
     [key: string]: number;
 }
 
-export interface SpiderSeriesConfiguration extends SeriesConfiguration {
+export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     range: [number, number];
     features: Array<string>;
@@ -32,13 +32,13 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
     tick: ITick;
 }
 
-export class SpiderSeries extends SeriesBase {
+export class ImageSpiderSeries extends SeriesBase {
     private domain: [number, number];
     private features: Array<string>;
     private labelFmt: Function;
     private tick: ITick;
 
-    constructor(configuration: SpiderSeriesConfiguration) {
+    constructor(configuration: ImageSpiderSeriesConfiguration) {
         super(configuration);
         if (configuration) {
             this.selector = configuration.selector || 'spider';
@@ -74,7 +74,6 @@ export class SpiderSeries extends SeriesBase {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
 
         const width = Math.min(geometry.width, geometry.height);
-        console.log('width : ', width, geometry);
         const height = width;
         const radialScale = scaleLinear()
             .domain(this.domain)

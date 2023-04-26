@@ -4,7 +4,7 @@ import {Observable, Observer} from 'rxjs';
 import {delay, tap} from 'rxjs/operators';
 import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
-import {SpiderSeries} from '../src/component/series/svg/image-spider';
+import {ImageSpiderSeries} from '../src/component/series/svg/image-spider';
 
 let chart: PlayChart;
 
@@ -67,7 +67,7 @@ const spider = () => {
         isResize: true,
         axes: [],
         series: [
-            new SpiderSeries({
+            new ImageSpiderSeries({
                 selector: 'sipder',
                 domain: [0, 10],
                 range: [0, 250],
