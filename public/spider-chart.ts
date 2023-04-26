@@ -78,7 +78,8 @@ const spider = () => {
                 },
                 labelFmt: (d: string) => {
                     return SWING_SPIDER[d];
-                }
+                },
+                labelWidth: 60
             })
         ]
     }).draw();

@@ -1,10 +1,11 @@
 import { __extends } from "tslib";
+import { select } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { defaultChartColors } from '../../../../component/chart/util/chart-util';
-import { getTransformByArray } from '../../../../component/chart/util';
+import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
 var ImageSpiderSeries = /** @class */ (function (_super) {
     __extends(ImageSpiderSeries, _super);
     function ImageSpiderSeries(configuration) {
@@ -15,6 +16,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
+            _this.labelWidth = configuration.labelWidth || 0;
         }
         return _this;
     }
@@ -138,7 +140,12 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         })
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) { return d.labelValue.y; })
-            .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); });
+            .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
+            .each(function (data, i, node) {
+            if (_this.labelWidth) {
+                textWrapping(select(node[i]), _this.labelWidth);
+            }
+        });
         var lineParser = line()
             .x(function (d) { return d.x; })
             .y(function (d) { return d.y; });

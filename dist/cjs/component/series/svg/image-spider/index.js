@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ImageSpiderSeries = void 0;
 var tslib_1 = require("tslib");
+var d3_1 = require("d3");
 var d3_scale_1 = require("d3-scale");
 var d3_shape_1 = require("d3-shape");
 var chart_1 = require("../../../../component/chart");
@@ -18,6 +19,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
+            _this.labelWidth = configuration.labelWidth || 0;
         }
         return _this;
     }
@@ -141,7 +143,12 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         })
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) { return d.labelValue.y; })
-            .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); });
+            .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
+            .each(function (data, i, node) {
+            if (_this.labelWidth) {
+                (0, util_1.textWrapping)((0, d3_1.select)(node[i]), _this.labelWidth);
+            }
+        });
         var lineParser = (0, d3_shape_1.line)()
             .x(function (d) { return d.x; })
             .y(function (d) { return d.y; });
