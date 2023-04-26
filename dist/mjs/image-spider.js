@@ -13,4 +13,5 @@ export var spiderChartBySvg = function (configuration, seriesConfiguration) {
     chartConfiguration.series = [new ImageSpiderSeries(seriesConfiguration)];
     return new PlayChart(chartConfiguration);
 };
+export { ImageSpiderSeries };
 //# sourceMappingURL=image-spider.js.map

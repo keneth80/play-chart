@@ -1,9 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.spiderChartBySvg = void 0;
+exports.ImageSpiderSeries = exports.spiderChartBySvg = void 0;
 var chart_generator_1 = require("./component/chart-generator");
 var play_chart_1 = require("./component/play-chart");
 var image_spider_1 = require("./component/series/svg/image-spider");
+Object.defineProperty(exports, "ImageSpiderSeries", { enumerable: true, get: function () { return image_spider_1.ImageSpiderSeries; } });
 /*
  * @title: svg 방사형 차트
  * argument:
