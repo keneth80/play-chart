@@ -275,7 +275,7 @@ export class ChartBase<T = any> implements IChartBase {
         return this.webglCanvas;
     }
 
-    get chartMargin(): any {
+    get chartMargin(): {left: number; top: number; right: number; bottom: number} {
         const transform: string[] = getTransformByArray(this.mainGroup.attr('transform'));
         const left = +transform[0];
         const top = +transform[1];

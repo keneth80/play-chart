@@ -1,7 +1,7 @@
 import {BaseType} from 'd3';
 import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
-import {line} from 'd3-shape';
+import {Line, line} from 'd3-shape';
 import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
@@ -195,7 +195,7 @@ export class SpiderSeries extends SeriesBase {
             .attr('y', (d) => d.labelValue.y)
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name));
 
-        const lineParser = line<DataPosition>()
+        const lineParser: Line<DataPosition> = line<DataPosition>()
             .x((d: DataPosition) => d.x)
             .y((d: DataPosition) => d.y);
 
@@ -207,12 +207,12 @@ export class SpiderSeries extends SeriesBase {
             .selectAll('.spider-path')
             .data(chartData)
             .join(
-                (enter: any) =>
+                (enter: Selection<EnterElement, any, any, any>) =>
                     enter
                         .append('path')
                         .attr('class', 'spider-path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
-                        .attr('d', lineParser),
+                        .attr('d', lineParser as any),
                 (update: Selection<BaseType, any, BaseType, any>) =>
                     update
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
@@ -225,12 +225,12 @@ export class SpiderSeries extends SeriesBase {
             .attr('stroke-opacity', 1)
             .attr('opacity', 0.7);
 
-        this.mainGroup
-            .select(`.${this.selector}-guide-group`)
+        const pathGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-guide-group`);
+        pathGroup
             .selectAll('.spider-guide-path')
             .data(guideLine)
-            .join(
-                (enter: any) =>
+            .join<any, any>(
+                (enter: Selection<EnterElement, any, any, any>) =>
                     enter
                         .append('path')
                         .attr('class', 'spider-guide-path')
@@ -239,7 +239,7 @@ export class SpiderSeries extends SeriesBase {
                             coordinates.push(coordinates[0]);
                             return coordinates;
                         })
-                        .attr('d', lineParser),
+                        .attr('d', lineParser as any),
                 (update: any) =>
                     update
                         .datum((d: SpiderData) => {
