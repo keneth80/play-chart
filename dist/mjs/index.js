@@ -3,4 +3,5 @@ export default {
         console.log('install');
     }
 };
+export { PlayChart } from './component/play-chart';
 //# sourceMappingURL=index.js.map
