@@ -8,6 +8,7 @@ var chart_1 = require("../../../../component/chart");
 var series_base_1 = require("../../../../component/chart/series-base");
 var chart_util_1 = require("../../../../component/chart/util/chart-util");
 var util_1 = require("../../../../component/chart/util");
+var chart_images_1 = require("../../../../chart-images");
 var ImageSpiderSeries = /** @class */ (function (_super) {
     tslib_1.__extends(ImageSpiderSeries, _super);
     function ImageSpiderSeries(configuration) {
@@ -62,7 +63,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/green_angular.png')
+            .attr('xlink:href', chart_images_1.greenImage)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)
@@ -73,7 +74,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/blue_angular.png')
+            .attr('xlink:href', chart_images_1.blueImage)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)
@@ -84,7 +85,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/spider_guide.png')
+            .attr('xlink:href', chart_images_1.spiderGuide)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)

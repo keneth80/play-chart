@@ -51,6 +51,15 @@ module.exports = {
                         presets: ['@babel/preset-env', '@babel/preset-typescript', '@babel/plugin-transform-typescript']
                     }
                 }
+            },
+            {
+                test: /\.(png|jpe?g)$/,
+                use: {
+                    loader: 'file-loader',
+                    options: {
+                        name: '[path][name].[ext]'
+                    }
+                }
             }
         ]
     },

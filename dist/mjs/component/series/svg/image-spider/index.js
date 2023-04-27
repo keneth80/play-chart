@@ -5,6 +5,7 @@ import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { defaultChartColors } from '../../../../component/chart/util/chart-util';
 import { getTransformByArray } from '../../../../component/chart/util';
+import { blueImage, greenImage, spiderGuide } from '../../../../chart-images';
 var ImageSpiderSeries = /** @class */ (function (_super) {
     __extends(ImageSpiderSeries, _super);
     function ImageSpiderSeries(configuration) {
@@ -59,7 +60,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/green_angular.png')
+            .attr('xlink:href', greenImage)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)
@@ -70,7 +71,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/blue_angular.png')
+            .attr('xlink:href', blueImage)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)
@@ -81,7 +82,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', height)
             .attr('patternUnits', 'userSpaceOnUse')
             .append('svg:image')
-            .attr('xlink:href', './assets/image/spider_guide.png')
+            .attr('xlink:href', spiderGuide)
             .attr('width', width)
             .attr('height', height)
             .attr('x', 0)
