@@ -1,4 +1,4 @@
-import {BaseType} from 'd3';
+import {BaseType, select} from 'd3';
 import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
 import {Line, line} from 'd3-shape';
@@ -7,7 +7,7 @@ import {ContainerSize, Scale} from '../../../../component/chart/chart.interface'
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
-import {getTransformByArray} from '../../../../component/chart/util';
+import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
 
 interface DataPosition {
     x: number;
@@ -30,6 +30,7 @@ export interface SpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
+    labelWidth?: number;
 }
 
 export class SpiderSeries extends SeriesBase {
@@ -37,6 +38,7 @@ export class SpiderSeries extends SeriesBase {
     private features: Array<string>;
     private labelFmt: Function;
     private tick: ITick;
+    private labelWidth: number;
 
     constructor(configuration: SpiderSeriesConfiguration) {
         super(configuration);
@@ -46,6 +48,7 @@ export class SpiderSeries extends SeriesBase {
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
+            this.labelWidth = configuration.labelWidth || 0;
         }
     }
 
@@ -156,7 +159,7 @@ export class SpiderSeries extends SeriesBase {
             .attr('stroke-opacity', 0.2);
 
         // draw axis label
-        this.mainGroup
+        const axisLabel = this.mainGroup
             .selectAll('.axis-label')
             .data(featureData)
             .join(
@@ -193,8 +196,12 @@ export class SpiderSeries extends SeriesBase {
             })
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => d.labelValue.y)
-            .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name));
-
+            .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
+            .each((data: any, i: number, node: any) => {
+                if (this.labelWidth) {
+                    textWrapping(select(node[i]), this.labelWidth);
+                }
+            });
         const lineParser: Line<DataPosition> = line<DataPosition>()
             .x((d: DataPosition) => d.x)
             .y((d: DataPosition) => d.y);

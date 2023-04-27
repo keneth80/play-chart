@@ -1,4 +1,4 @@
-import {BaseType} from 'd3';
+import {BaseType, select} from 'd3';
 import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
 import {Line, line} from 'd3-shape';
@@ -7,8 +7,8 @@ import {ContainerSize, Scale} from '../../../../component/chart/chart.interface'
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
-import {getTransformByArray} from '../../../../component/chart/util';
 import {blueImage, greenImage, spiderGuide} from '../../../../chart-images';
+import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
 
 interface DataPosition {
     x: number;
@@ -31,6 +31,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
+    labelWidth?: number;
 }
 
 export class ImageSpiderSeries extends SeriesBase {
@@ -38,6 +39,7 @@ export class ImageSpiderSeries extends SeriesBase {
     private features: Array<string>;
     private labelFmt: Function;
     private tick: ITick;
+    private labelWidth: number;
 
     constructor(configuration: ImageSpiderSeriesConfiguration) {
         super(configuration);
@@ -47,6 +49,7 @@ export class ImageSpiderSeries extends SeriesBase {
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
+            this.labelWidth = configuration.labelWidth || 0;
         }
     }
 
@@ -229,7 +232,12 @@ export class ImageSpiderSeries extends SeriesBase {
             })
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => d.labelValue.y)
-            .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name));
+            .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
+            .each((data: any, i: number, node: any) => {
+                if (this.labelWidth) {
+                    textWrapping(select(node[i]), this.labelWidth);
+                }
+            });
 
         const lineParser: Line<DataPosition> = line<DataPosition>()
             .x((d: DataPosition) => d.x)
@@ -259,7 +267,7 @@ export class ImageSpiderSeries extends SeriesBase {
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
             .attr('fill', (_: SpiderData, i: number) => (i === 1 ? 'url(#green_angular)' : 'url(#blue_angular)'))
-            .attr('fill-opacity', 0.8);
+            .attr('fill-opacity', 0.9);
 
         const pathGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-guide-group`);
         pathGroup
