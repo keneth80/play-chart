@@ -7,7 +7,9 @@ import {ContainerSize, Scale} from '../../../../component/chart/chart.interface'
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
-import {blueImage, greenImage, spiderGuide} from '../../../../chart-images';
+import blueImage from '../../../../assets/image/blue_angular.png';
+import greenImage from '../../../../assets/image/green_angular.png';
+import spiderGuide from '../../../../assets/image/spider_guide.png';
 import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
 
 interface DataPosition {
