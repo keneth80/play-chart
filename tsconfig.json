@@ -26,7 +26,7 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "baseUrl": ".",
-        "outDir": "dist/mjs",
+        "outDir": "dist",
         "types": ["node"],
         "plugins": [
             {"transform": "typescript-transform-paths"},

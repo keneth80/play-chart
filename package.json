@@ -15,6 +15,7 @@
         "serve:ex:horizontal-pointer": "cross-env EXAMPLE=horizontal-pointer webpack-dev-server --stats-error-details --config ./webpack-config/webpack.config.example.js",
         "open-report": "webpack-bundle-analyzer dist/report/stats.json",
         "build": "rm -fr dist/* && cross-env NODE_ENV=production webpack && (npm run mjs & npm run cjs)",
+        "build-only-mjs": "rm -fr dist/* && cross-env NODE_ENV=production webpack && npm run mjs",
         "cjs": "ttsc -p tsconfig-cjs.json",
         "mjs": "ttsc -p tsconfig.json"
     },
@@ -24,20 +25,16 @@
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/mjs/index.js",
-            "require": "./dist/cjs/index.js"
+            "import": "./dist/index.js"
         },
         "./spider": {
-            "import": "./dist/mjs/spider.js",
-            "require": "./dist/cjs/spider.js"
+            "import": "./dist/spider.js"
         },
         "./image-spider": {
-            "import": "./dist/mjs/image-spider.js",
-            "require": "./dist/cjs/image-spider.js"
+            "import": "./dist/image-spider.js"
         },
         "./chart-images": {
-            "import": "./dist/mjs/chart-images.js",
-            "require": "./dist/cjs/chart-images.js"
+            "import": "./dist/chart-images.js"
         }
     },
     "files": [
