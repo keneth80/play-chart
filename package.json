@@ -34,6 +34,10 @@
         "./image-spider": {
             "import": "./dist/mjs/image-spider.js",
             "require": "./dist/cjs/image-spider.js"
+        },
+        "./chart-images": {
+            "import": "./dist/mjs/chart-images.js",
+            "require": "./dist/cjs/chart-images.js"
         }
     },
     "files": [
@@ -49,6 +53,9 @@
             ],
             "image-spider": [
                 "dist/types/image-spider.d.ts"
+            ],
+            "chart-images": [
+                "dist/types/chart-images.d.ts"
             ]
         }
     },
