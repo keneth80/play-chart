@@ -1,16 +1,16 @@
 import {BaseType, select} from 'd3';
-import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
+import {EnterElement, Selection} from 'd3-selection';
 import {Line, line} from 'd3-shape';
+import blueImage from '../../../../assets/image/blue_angular.png';
+import greenImage from '../../../../assets/image/green_angular.png';
+import spiderGuide from '../../../../assets/image/spider_guide.png';
 import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
-import {defaultChartColors} from '../../../../component/chart/util/chart-util';
-import blueImage from '../../../../assets/image/blue_angular.png';
-import greenImage from '../../../../assets/image/green_angular.png';
-import spiderGuide from '../../../../assets/image/spider_guide.png';
 import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
+import {defaultChartColors} from '../../../../component/chart/util/chart-util';
 
 interface DataPosition {
     x: number;
@@ -232,6 +232,7 @@ export class ImageSpiderSeries extends SeriesBase {
                     return 'start';
                 }
             })
+            .style('fill', '#26282C;')
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => d.labelValue.y)
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
