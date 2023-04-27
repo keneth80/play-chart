@@ -232,13 +232,12 @@ export class ImageSpiderSeries extends SeriesBase {
                     return 'start';
                 }
             })
-            .style('fill', '#26282C;')
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => d.labelValue.y)
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
             .each((data: any, i: number, node: any) => {
                 if (this.labelWidth) {
-                    textWrapping(select(node[i]), this.labelWidth);
+                    textWrapping(select(node[i]), this.labelWidth, '#26282C');
                 }
             });
 

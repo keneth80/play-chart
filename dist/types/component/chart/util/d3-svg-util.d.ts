@@ -1,10 +1,10 @@
-import { Selection, BaseType } from 'd3-selection';
+import { BaseType, Selection } from 'd3-selection';
 import { ContainerSize, LegendItem } from '../chart.interface';
 export declare const getTransformByArray: (transform?: string) => string[];
 export declare const isIE: () => boolean;
 export declare const colorDarker: (fill: any, value?: number) => any;
 export declare const guid: () => string;
-export declare const textWrapping: (text: any, width: number) => void;
+export declare const textWrapping: (text: any, width: number, color?: string) => void;
 export declare const textBreak: (target: any, pattern?: any) => void;
 export declare const getOsName: () => string;
 export declare const wrapTextByRowLimit: (text: any, width: number, limitRowCount?: number) => any;

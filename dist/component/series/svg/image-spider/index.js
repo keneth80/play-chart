@@ -141,13 +141,12 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
                 return 'start';
             }
         })
-            .style('fill', '#26282C;')
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) { return d.labelValue.y; })
             .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
             .each(function (data, i, node) {
             if (_this.labelWidth) {
-                textWrapping(select(node[i]), _this.labelWidth);
+                textWrapping(select(node[i]), _this.labelWidth, '#26282C');
             }
         });
         var lineParser = line()
