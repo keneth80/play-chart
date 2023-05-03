@@ -19,7 +19,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     tick: ITick;
     labelWidth?: number;
     seriesImage: (index: number) => {};
-    backgroundImage: string;
+    backgroundImage: any;
 }
 export declare class ImageSpiderSeries extends SeriesBase {
     private domain;

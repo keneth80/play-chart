@@ -35,7 +35,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     tick: ITick;
     labelWidth?: number;
     seriesImage: (index: number) => {};
-    backgroundImage: string;
+    backgroundImage: any;
 }
 
 export class ImageSpiderSeries extends SeriesBase {
@@ -44,7 +44,7 @@ export class ImageSpiderSeries extends SeriesBase {
     private labelFmt: Function;
     private tick: ITick;
     private labelWidth: number;
-    private backgroundImage: string;
+    private backgroundImage: any;
     private seriesImage: any;
 
     constructor(configuration: ImageSpiderSeriesConfiguration) {
