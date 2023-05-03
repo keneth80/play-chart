@@ -1,16 +1,18 @@
+import { axisBottom, axisLeft, axisRight, axisTop } from 'd3-axis';
 import { color } from 'd3-color';
 import { select } from 'd3-selection';
 import { line } from 'd3-shape';
-import { Placement } from '../chart-configuration';
-import { axisTop, axisLeft, axisRight, axisBottom } from 'd3-axis';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { Placement } from '../chart-configuration';
 export var getTransformByArray = function (transform) {
     if (transform === void 0) { transform = 'translate(0, 0)'; }
     var translateString = transform.substring(transform.indexOf('translate('), transform.indexOf(')') + 1);
     var translate = ['0', '0'];
     var agent = navigator.userAgent.toLowerCase();
-    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) || agent.indexOf('msie') !== -1 || agent.indexOf('edge') !== -1) {
+    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) ||
+        agent.indexOf('msie') !== -1 ||
+        agent.indexOf('edge') !== -1) {
         // ie일 경우
         var parseTranslate = translateString.replace('translate(', '').replace(')', '');
         translate = parseTranslate.split(/\s+/);
@@ -34,7 +36,9 @@ export var getTransformByArray = function (transform) {
 export var isIE = function () {
     var returnValue = false;
     var agent = navigator.userAgent.toLowerCase();
-    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) || agent.indexOf('msie') !== -1 || agent.indexOf('edge') !== -1) {
+    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) ||
+        agent.indexOf('msie') !== -1 ||
+        agent.indexOf('edge') !== -1) {
         // ie일 경우
         returnValue = true;
     }
@@ -52,7 +56,8 @@ export var guid = function () {
     };
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
-export var textWrapping = function (text, width) {
+export var textWrapping = function (text, width, color) {
+    if (color === void 0) { color = '#000'; }
     text.each(function (d, index, node) {
         var _a, _b, _c;
         var targetText = select(node[index]);
@@ -85,7 +90,8 @@ export var textWrapping = function (text, width) {
                     .attr('x', x)
                     .attr('y', y)
                     .attr('dy', ++lineNumber * lineHeight + dy + 'em')
-                    .text(word);
+                    .text(word)
+                    .style('fill', color || '#000');
             }
         }
     });

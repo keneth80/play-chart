@@ -2,13 +2,13 @@ import { __extends } from "tslib";
 import { select } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { ChartSelector } from '../../../../component/chart';
-import { SeriesBase } from '../../../../component/chart/series-base';
-import { defaultChartColors } from '../../../../component/chart/util/chart-util';
 import blueImage from '../../../../assets/image/blue_angular.png';
 import greenImage from '../../../../assets/image/green_angular.png';
 import spiderGuide from '../../../../assets/image/spider_guide.png';
+import { ChartSelector } from '../../../../component/chart';
+import { SeriesBase } from '../../../../component/chart/series-base';
 import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
+import { defaultChartColors } from '../../../../component/chart/util/chart-util';
 var ImageSpiderSeries = /** @class */ (function (_super) {
     __extends(ImageSpiderSeries, _super);
     function ImageSpiderSeries(configuration) {
@@ -112,7 +112,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
             .each(function (data, i, node) {
             if (_this.labelWidth) {
-                textWrapping(select(node[i]), _this.labelWidth);
+                textWrapping(select(node[i]), _this.labelWidth, '#26282C');
             }
         });
         var lineParser = line()
