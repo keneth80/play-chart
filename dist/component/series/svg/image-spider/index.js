@@ -57,40 +57,6 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         var mainTransform = getTransformByArray(this.mainGroup.attr('transform'));
         this.mainGroup.attr('clip-path', null);
         this.mainGroup.attr('transform', "translate(".concat(geometry.width / 2 - width / 2, ", ").concat(mainTransform[1], ")"));
-        var defs = this.svg.selectAll('defs');
-        defs.append('svg:pattern')
-            .attr('id', 'green_angular')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', greenImage)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
-        defs.append('svg:pattern')
-            .attr('id', 'blue_angular')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', blueImage)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
-        defs.append('svg:pattern')
-            .attr('id', 'spider_guide')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', spiderGuide)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
         // draw tick labels
         if (this.tick.tickVisible !== false) {
             this.mainGroup
@@ -153,27 +119,30 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .x(function (d) { return d.x; })
             .y(function (d) { return d.y; });
         var colors = defaultChartColors();
+        var defs = this.svg.selectAll('defs');
         // draw the path element
         console.log(chartData);
         var seriesGroup = this.mainGroup
             .select(".".concat(this.selector, "-series-group"))
             .raise();
-        seriesGroup
-            .selectAll('.spider-path')
+        defs.selectAll('mask')
             .data(chartData)
             .join(function (enter) {
             return enter
+                .append('mask')
+                .attr('id', function (_, i) { return (i === 1 ? 'green_angular' : 'blue_angular'); })
                 .append('path')
-                .attr('class', 'spider-path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (update) {
             return update
+                .attr('id', function (_, i) { return (i === 1 ? 'green_angular' : 'blue_angular'); })
+                .select('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (exite) { return exite.remove(); })
-            .attr('fill', function (_, i) { return (i === 1 ? 'url(#green_angular)' : 'url(#blue_angular)'); })
-            .attr('fill-opacity', 0.9);
+            .style('fill', '#fff')
+            .style('fill-opacity', 0.9);
         var pathGroup = this.mainGroup.select(".".concat(this.selector, "-guide-group"));
         pathGroup
             .selectAll('.spider-guide-path')
@@ -199,8 +168,36 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         }, function (exite) { return exite.remove(); })
             .attr('stroke-width', 1)
             .attr('stroke-opacity', 0)
-            .attr('stroke', 'black')
-            .attr('fill', 'url(#spider_guide)');
+            .attr('stroke', '#fff');
+        var tempSize = pathGroup.node().getBBox();
+        var boxSize = Math.max(tempSize.width, tempSize.height);
+        console.log(pathGroup.node().getBBox(), width, height, boxSize);
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', spiderGuide)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize + 2)
+            .attr('height', boxSize + 2)
+            .attr('x', width / 2 - boxSize / 2 - 1)
+            .attr('y', height / 2 - boxSize / 2 - 1);
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', blueImage)
+            .attr('mask', 'url(#blue_angular)')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize)
+            .attr('height', boxSize)
+            .attr('x', width / 2 - boxSize / 2)
+            .attr('y', height / 2 - boxSize / 2);
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', greenImage)
+            .attr('mask', 'url(#green_angular)')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize)
+            .attr('height', boxSize)
+            .attr('x', width / 2 - boxSize / 2)
+            .attr('y', height / 2 - boxSize / 2);
     };
     return ImageSpiderSeries;
 }(SeriesBase));

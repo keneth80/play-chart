@@ -96,42 +96,6 @@ export class ImageSpiderSeries extends SeriesBase {
         this.mainGroup.attr('clip-path', null);
         this.mainGroup.attr('transform', `translate(${geometry.width / 2 - width / 2}, ${mainTransform[1]})`);
 
-        const defs = this.svg.selectAll('defs');
-        defs.append('svg:pattern')
-            .attr('id', 'green_angular')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', greenImage)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
-        defs.append('svg:pattern')
-            .attr('id', 'blue_angular')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', blueImage)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
-
-        defs.append('svg:pattern')
-            .attr('id', 'spider_guide')
-            .attr('width', width)
-            .attr('height', height)
-            .attr('patternUnits', 'userSpaceOnUse')
-            .append('svg:image')
-            .attr('xlink:href', spiderGuide)
-            .attr('width', width)
-            .attr('height', height)
-            .attr('x', 0)
-            .attr('y', 0);
-
         // draw tick labels
         if (this.tick.tickVisible !== false) {
             this.mainGroup
@@ -246,30 +210,33 @@ export class ImageSpiderSeries extends SeriesBase {
             .y((d: DataPosition) => d.y);
 
         const colors = defaultChartColors();
-
+        const defs = this.svg.selectAll('defs');
         // draw the path element
         console.log(chartData);
         const seriesGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup
             .select(`.${this.selector}-series-group`)
             .raise();
-        seriesGroup
-            .selectAll('.spider-path')
+
+        defs.selectAll('mask')
             .data(chartData)
             .join(
                 (enter: Selection<EnterElement, any, any, any>) =>
                     enter
+                        .append('mask')
+                        .attr('id', (_: SpiderData, i: number) => (i === 1 ? 'green_angular' : 'blue_angular'))
                         .append('path')
-                        .attr('class', 'spider-path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (update: Selection<BaseType, any, BaseType, any>) =>
                     update
+                        .attr('id', (_: SpiderData, i: number) => (i === 1 ? 'green_angular' : 'blue_angular'))
+                        .select('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
-            .attr('fill', (_: SpiderData, i: number) => (i === 1 ? 'url(#green_angular)' : 'url(#blue_angular)'))
-            .attr('fill-opacity', 0.9);
+            .style('fill', '#fff')
+            .style('fill-opacity', 0.9);
 
         const pathGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-guide-group`);
         pathGroup
@@ -298,8 +265,40 @@ export class ImageSpiderSeries extends SeriesBase {
             )
             .attr('stroke-width', 1)
             .attr('stroke-opacity', 0)
-            .attr('stroke', 'black')
-            .attr('fill', 'url(#spider_guide)');
+            .attr('stroke', '#fff');
+
+        const tempSize = (pathGroup.node() as any).getBBox();
+        const boxSize = Math.max(tempSize.width, tempSize.height);
+        console.log((pathGroup.node() as any).getBBox(), width, height, boxSize);
+
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', spiderGuide)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize + 2)
+            .attr('height', boxSize + 2)
+            .attr('x', width / 2 - boxSize / 2 - 1)
+            .attr('y', height / 2 - boxSize / 2 - 1);
+
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', blueImage)
+            .attr('mask', 'url(#blue_angular)')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize)
+            .attr('height', boxSize)
+            .attr('x', width / 2 - boxSize / 2)
+            .attr('y', height / 2 - boxSize / 2);
+
+        seriesGroup
+            .append('svg:image')
+            .attr('xlink:href', greenImage)
+            .attr('mask', 'url(#green_angular)')
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize)
+            .attr('height', boxSize)
+            .attr('x', width / 2 - boxSize / 2)
+            .attr('y', height / 2 - boxSize / 2);
     }
 }
 
