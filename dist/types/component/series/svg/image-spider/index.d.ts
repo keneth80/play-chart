@@ -18,6 +18,8 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     labelFmt?: Function;
     tick: ITick;
     labelWidth?: number;
+    seriesImage: (index: number) => {};
+    backgroundImage: string;
 }
 export declare class ImageSpiderSeries extends SeriesBase {
     private domain;
@@ -25,6 +27,8 @@ export declare class ImageSpiderSeries extends SeriesBase {
     private labelFmt;
     private tick;
     private labelWidth;
+    private backgroundImage;
+    private seriesImage;
     constructor(configuration: ImageSpiderSeriesConfiguration);
     setSvgElement(svg: Selection<BaseType, any, HTMLElement, any>, mainGroup: Selection<BaseType, any, HTMLElement, any>): void;
     drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize): void;

@@ -4,7 +4,6 @@ import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
 import blueImage from '../../../../assets/image/blue_angular.png';
 import greenImage from '../../../../assets/image/green_angular.png';
-import spiderGuide from '../../../../assets/image/spider_guide.png';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
@@ -20,6 +19,8 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
             _this.labelWidth = configuration.labelWidth || 0;
+            _this.backgroundImage = configuration.backgroundImage;
+            _this.seriesImage = configuration.seriesImage;
         }
         return _this;
     }
@@ -174,7 +175,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         console.log(pathGroup.node().getBBox(), width, height, boxSize);
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', spiderGuide)
+            .attr('xlink:href', this.backgroundImage)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)
             .attr('height', boxSize + 2)
@@ -182,7 +183,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('y', height / 2 - boxSize / 2 - 1);
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', blueImage)
+            .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
             .attr('mask', 'url(#blue_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
@@ -191,7 +192,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('y', height / 2 - boxSize / 2);
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', greenImage)
+            .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
             .attr('mask', 'url(#green_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)

@@ -34,6 +34,8 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     labelFmt?: Function;
     tick: ITick;
     labelWidth?: number;
+    seriesImage: (index: number) => {};
+    backgroundImage: string;
 }
 
 export class ImageSpiderSeries extends SeriesBase {
@@ -42,6 +44,8 @@ export class ImageSpiderSeries extends SeriesBase {
     private labelFmt: Function;
     private tick: ITick;
     private labelWidth: number;
+    private backgroundImage: string;
+    private seriesImage: any;
 
     constructor(configuration: ImageSpiderSeriesConfiguration) {
         super(configuration);
@@ -52,6 +56,8 @@ export class ImageSpiderSeries extends SeriesBase {
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
             this.labelWidth = configuration.labelWidth || 0;
+            this.backgroundImage = configuration.backgroundImage;
+            this.seriesImage = configuration.seriesImage;
         }
     }
 
@@ -273,7 +279,7 @@ export class ImageSpiderSeries extends SeriesBase {
 
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', spiderGuide)
+            .attr('xlink:href', this.backgroundImage)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)
             .attr('height', boxSize + 2)
@@ -282,7 +288,7 @@ export class ImageSpiderSeries extends SeriesBase {
 
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', blueImage)
+            .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
             .attr('mask', 'url(#blue_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
@@ -292,7 +298,7 @@ export class ImageSpiderSeries extends SeriesBase {
 
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', greenImage)
+            .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
             .attr('mask', 'url(#green_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)

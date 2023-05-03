@@ -5,6 +5,7 @@ import {delay, tap} from 'rxjs/operators';
 import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
 import {ImageSpiderSeries} from '../src/component/series/svg/image-spider';
+import {spiderGuide, greenImage, blueImage} from '../src/chart-images';
 
 let chart: PlayChart;
 
@@ -78,6 +79,10 @@ const spider = () => {
                 },
                 labelFmt: (d: string) => {
                     return SWING_SPIDER[d];
+                },
+                backgroundImage: spiderGuide,
+                seriesImage: (index: number) => {
+                    return index === 1 ? greenImage : blueImage;
                 }
             })
         ]
