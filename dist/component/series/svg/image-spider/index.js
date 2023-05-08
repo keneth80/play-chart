@@ -2,8 +2,7 @@ import { __extends } from "tslib";
 import { select } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import blueImage from '../../../../assets/image/blue_angular.png';
-import greenImage from '../../../../assets/image/green_angular.png';
+import { blueImage, greenImage, spiderGuide } from '../../../../chart-images';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
@@ -109,7 +108,13 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             }
         })
             .attr('x', function (d) { return d.labelValue.x; })
-            .attr('y', function (d) { return d.labelValue.y; })
+            .attr('y', function (d) {
+            var compare = 0;
+            if (width / 2 === d.labelValue.x && height / 2 < d.labelValue.y) {
+                compare = 10;
+            }
+            return d.labelValue.y + compare;
+        })
             .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
             .each(function (data, i, node) {
             if (_this.labelWidth) {
@@ -122,7 +127,6 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         var colors = defaultChartColors();
         var defs = this.svg.selectAll('defs');
         // draw the path element
-        console.log(chartData);
         var seriesGroup = this.mainGroup
             .select(".".concat(this.selector, "-series-group"))
             .raise();
@@ -172,10 +176,9 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('stroke', '#fff');
         var tempSize = pathGroup.node().getBBox();
         var boxSize = Math.max(tempSize.width, tempSize.height);
-        console.log(pathGroup.node().getBBox(), width, height, boxSize);
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', this.backgroundImage)
+            .attr('xlink:href', this.backgroundImage || spiderGuide)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)
             .attr('height', boxSize + 2)
@@ -220,7 +223,6 @@ function getPathCoordinates(dataPoint, features, width, height, radialScale) {
         //     coordinates.push(angleToCoordinate(angle, radialScale(dataPoint[features[0]]), width, height));
         // }
     }
-    console.log(coordinates);
     return coordinates;
 }
 //# sourceMappingURL=index.js.map

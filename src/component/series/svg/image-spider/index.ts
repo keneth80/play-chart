@@ -2,9 +2,7 @@ import {BaseType, select} from 'd3';
 import {scaleLinear} from 'd3-scale';
 import {EnterElement, Selection} from 'd3-selection';
 import {Line, line} from 'd3-shape';
-import blueImage from '../../../../assets/image/blue_angular.png';
-import greenImage from '../../../../assets/image/green_angular.png';
-import spiderGuide from '../../../../assets/image/spider_guide.png';
+import {blueImage, greenImage, spiderGuide} from '../../../../chart-images';
 import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
@@ -203,7 +201,13 @@ export class ImageSpiderSeries extends SeriesBase {
                 }
             })
             .attr('x', (d) => d.labelValue.x)
-            .attr('y', (d) => d.labelValue.y)
+            .attr('y', (d) => {
+                let compare = 0;
+                if (width / 2 === d.labelValue.x && height / 2 < d.labelValue.y) {
+                    compare = 10;
+                }
+                return d.labelValue.y + compare;
+            })
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
             .each((data: any, i: number, node: any) => {
                 if (this.labelWidth) {
@@ -218,7 +222,6 @@ export class ImageSpiderSeries extends SeriesBase {
         const colors = defaultChartColors();
         const defs = this.svg.selectAll('defs');
         // draw the path element
-        console.log(chartData);
         const seriesGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup
             .select(`.${this.selector}-series-group`)
             .raise();
@@ -275,11 +278,10 @@ export class ImageSpiderSeries extends SeriesBase {
 
         const tempSize = (pathGroup.node() as any).getBBox();
         const boxSize = Math.max(tempSize.width, tempSize.height);
-        console.log((pathGroup.node() as any).getBBox(), width, height, boxSize);
 
         seriesGroup
             .append('svg:image')
-            .attr('xlink:href', this.backgroundImage)
+            .attr('xlink:href', this.backgroundImage || spiderGuide)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)
             .attr('height', boxSize + 2)
@@ -333,6 +335,5 @@ function getPathCoordinates(
         //     coordinates.push(angleToCoordinate(angle, radialScale(dataPoint[features[0]]), width, height));
         // }
     }
-    console.log(coordinates);
     return coordinates;
 }
