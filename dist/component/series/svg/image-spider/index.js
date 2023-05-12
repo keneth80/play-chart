@@ -2,7 +2,7 @@ import { __extends } from "tslib";
 import { select } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { blueImage, greenImage, spiderGuide } from '../../../../chart-images';
+import { blueImage, spiderGuide } from '../../../../chart-images';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
@@ -135,13 +135,13 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .join(function (enter) {
             return enter
                 .append('mask')
-                .attr('id', function (_, i) { return (i === 1 ? 'green_angular' : 'blue_angular'); })
+                .attr('id', function (_, i) { return getSeriesInfo(chartData, i); })
                 .append('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (update) {
             return update
-                .attr('id', function (_, i) { return (i === 1 ? 'green_angular' : 'blue_angular'); })
+                .attr('id', function (_, i) { return getSeriesInfo(chartData, i); })
                 .select('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
@@ -185,27 +185,41 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('x', width / 2 - boxSize / 2 - 1)
             .attr('y', height / 2 - boxSize / 2 - 1);
         seriesGroup
-            .append('svg:image')
+            .selectAll('.spider-series')
+            .data(chartData)
+            .join(function (enter) { return enter.append('image').attr('class', 'spider-series'); }, function (update) { return update; }, function (exite) { return exite.remove(); })
+            .attr('mask', function (_, i) { return "url(#".concat(getSeriesInfo(chartData, i), ")"); })
             .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
-            .attr('mask', 'url(#blue_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
             .attr('height', boxSize)
             .attr('x', width / 2 - boxSize / 2)
             .attr('y', height / 2 - boxSize / 2);
-        seriesGroup
-            .append('svg:image')
-            .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
-            .attr('mask', 'url(#green_angular)')
-            .attr('preserveAspectRatio', 'xMidYMid meet')
-            .attr('width', boxSize)
-            .attr('height', boxSize)
-            .attr('x', width / 2 - boxSize / 2)
-            .attr('y', height / 2 - boxSize / 2);
+        // seriesGroup
+        //     .append('svg:image')
+        //     .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
+        //     .attr('mask', 'url(#blue_angular)')
+        //     .attr('preserveAspectRatio', 'xMidYMid meet')
+        //     .attr('width', boxSize)
+        //     .attr('height', boxSize)
+        //     .attr('x', width / 2 - boxSize / 2)
+        //     .attr('y', height / 2 - boxSize / 2);
+        // seriesGroup
+        //     .append('svg:image')
+        //     .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
+        //     .attr('mask', 'url(#green_angular)')
+        //     .attr('preserveAspectRatio', 'xMidYMid meet')
+        //     .attr('width', boxSize)
+        //     .attr('height', boxSize)
+        //     .attr('x', width / 2 - boxSize / 2)
+        //     .attr('y', height / 2 - boxSize / 2);
     };
     return ImageSpiderSeries;
 }(SeriesBase));
 export { ImageSpiderSeries };
+function getSeriesInfo(chartData, index) {
+    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
+}
 function getAngle(index, featuresLength) {
     return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;
 }

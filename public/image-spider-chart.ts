@@ -5,7 +5,7 @@ import {delay, tap} from 'rxjs/operators';
 import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
 import {ImageSpiderSeries} from '../src/component/series/svg/image-spider';
-import {spiderGuide, greenImage, blueImage} from '../src/chart-images';
+import {spiderGuide, greenImage, blueImage, spiderGuideOpacitySvg, spiderGuideOpacity} from '../src/chart-images';
 
 let chart: PlayChart;
 
@@ -24,7 +24,7 @@ const spider = () => {
             D: 9,
             E: 8,
             F: 10
-        },
+        }
         // {
         //     A: 3.3635058731329384,
         //     B: 5.646006002989791,
@@ -33,14 +33,14 @@ const spider = () => {
         //     E: 7.479050824971674,
         //     F: 4.4135923186340005
         // }
-        {
-            A: 3.07442653193206,
-            B: 3.7409662936188095,
-            C: 7.958290858166398,
-            D: 1.0214228991037988,
-            E: 3.1262880342517683,
-            F: 1.270447060499519
-        }
+        // {
+        //     A: 3.07442653193206,
+        //     B: 3.7409662936188095,
+        //     C: 7.958290858166398,
+        //     D: 1.0214228991037988,
+        //     E: 3.1262880342517683,
+        //     F: 1.270447060499519
+        // }
     ];
 
     // const
@@ -82,7 +82,7 @@ const spider = () => {
                 },
                 backgroundImage: spiderGuide,
                 seriesImage: (index: number) => {
-                    return index === 1 ? greenImage : blueImage;
+                    return data.length > 1 ? (index === 1 ? greenImage : blueImage) : greenImage;
                 }
             })
         ]

@@ -232,13 +232,13 @@ export class ImageSpiderSeries extends SeriesBase {
                 (enter: Selection<EnterElement, any, any, any>) =>
                     enter
                         .append('mask')
-                        .attr('id', (_: SpiderData, i: number) => (i === 1 ? 'green_angular' : 'blue_angular'))
+                        .attr('id', (_: SpiderData, i: number) => getSeriesInfo(chartData, i))
                         .append('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (update: Selection<BaseType, any, BaseType, any>) =>
                     update
-                        .attr('id', (_: SpiderData, i: number) => (i === 1 ? 'green_angular' : 'blue_angular'))
+                        .attr('id', (_: SpiderData, i: number) => getSeriesInfo(chartData, i))
                         .select('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
@@ -289,25 +289,45 @@ export class ImageSpiderSeries extends SeriesBase {
             .attr('y', height / 2 - boxSize / 2 - 1);
 
         seriesGroup
-            .append('svg:image')
+            .selectAll('.spider-series')
+            .data(chartData)
+            .join(
+                (enter: Selection<EnterElement, any, any, any>) => enter.append('image').attr('class', 'spider-series'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr('mask', (_: SpiderData, i: number) => `url(#${getSeriesInfo(chartData, i)})`)
             .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
-            .attr('mask', 'url(#blue_angular)')
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
             .attr('height', boxSize)
             .attr('x', width / 2 - boxSize / 2)
             .attr('y', height / 2 - boxSize / 2);
 
-        seriesGroup
-            .append('svg:image')
-            .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
-            .attr('mask', 'url(#green_angular)')
-            .attr('preserveAspectRatio', 'xMidYMid meet')
-            .attr('width', boxSize)
-            .attr('height', boxSize)
-            .attr('x', width / 2 - boxSize / 2)
-            .attr('y', height / 2 - boxSize / 2);
+        // seriesGroup
+        //     .append('svg:image')
+        //     .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
+        //     .attr('mask', 'url(#blue_angular)')
+        //     .attr('preserveAspectRatio', 'xMidYMid meet')
+        //     .attr('width', boxSize)
+        //     .attr('height', boxSize)
+        //     .attr('x', width / 2 - boxSize / 2)
+        //     .attr('y', height / 2 - boxSize / 2);
+
+        // seriesGroup
+        //     .append('svg:image')
+        //     .attr('xlink:href', this.seriesImage ? this.seriesImage(1) : greenImage)
+        //     .attr('mask', 'url(#green_angular)')
+        //     .attr('preserveAspectRatio', 'xMidYMid meet')
+        //     .attr('width', boxSize)
+        //     .attr('height', boxSize)
+        //     .attr('x', width / 2 - boxSize / 2)
+        //     .attr('y', height / 2 - boxSize / 2);
     }
+}
+
+function getSeriesInfo(chartData: Array<any>, index: number) {
+    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
 }
 
 function getAngle(index: number, featuresLength: number): number {
