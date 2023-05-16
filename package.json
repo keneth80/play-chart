@@ -81,6 +81,7 @@
         "style-loader": "^3.3.1",
         "terser-webpack-plugin": "^5.3.6",
         "ts-loader": "^9.2.3",
+        "tslib": "^2.5.0",
         "ttypescript": "^1.5.13",
         "typescript": "^4.1.5",
         "typescript-transform-paths": "^3.3.1",
@@ -100,7 +101,6 @@
         "crossfilter2": "^1.5.4",
         "d3": "^7.8.2",
         "object-hash": "^2.0.3",
-        "rxjs": "^6.5.5",
-        "tslib": "^2.5.0"
+        "rxjs": "^6.5.5"
     }
 }
