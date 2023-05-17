@@ -96,14 +96,18 @@ export var textWrapping = function (text, width, color) {
         }
     });
 };
-export var textBreak = function (target, pattern) {
+export var textBreak = function (target, pattern, isPosition) {
     if (pattern === void 0) { pattern = /\s+/; }
+    if (isPosition === void 0) { isPosition = false; }
     // /(\n|\r\n)/g
     target.each(function (d, index, node) {
         var _a, _b, _c;
         var text = select(node[index]);
         var lines = [];
         var words = text.text().split(pattern).reverse();
+        if (words.length === 1) {
+            return;
+        }
         // const words = text.text().split('').reverse();
         var word = null;
         var lineNumber = 0;
@@ -111,12 +115,7 @@ export var textBreak = function (target, pattern) {
         var x = (_a = text.attr('x')) !== null && _a !== void 0 ? _a : 0;
         var y = (_b = text.attr('y')) !== null && _b !== void 0 ? _b : 0;
         var dy = parseFloat((_c = text.attr('dy')) !== null && _c !== void 0 ? _c : '0');
-        var tspan = text
-            .text(null)
-            .append('tspan')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('dy', dy + 'em');
+        var tspan = text.text(null);
         while ((word = words.pop())) {
             lines.push(word);
             tspan.text(lines.join(''));
@@ -125,12 +124,17 @@ export var textBreak = function (target, pattern) {
             lines = [word];
             // line.length = 0;
             // line.concat([word]);
+            var compareY = lineNumber * lineHeight + dy;
+            if (isPosition) {
+                compareY = compareY - lineHeight / 2;
+            }
             tspan = text
                 .append('tspan')
                 .attr('x', x)
                 .attr('y', y)
-                .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+                .attr('dy', compareY + 'em')
                 .text(word);
+            lineNumber++;
         }
     });
 };

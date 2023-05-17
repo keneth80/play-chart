@@ -17,7 +17,6 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
-    labelWidth?: number;
     seriesImage: (index: number) => {};
     backgroundImage: any;
 }
@@ -26,7 +25,6 @@ export declare class ImageSpiderSeries extends SeriesBase {
     private features;
     private labelFmt;
     private tick;
-    private labelWidth;
     private backgroundImage;
     private seriesImage;
     constructor(configuration: ImageSpiderSeriesConfiguration);

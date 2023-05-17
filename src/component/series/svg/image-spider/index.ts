@@ -7,7 +7,7 @@ import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
-import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
+import {getTransformByArray, textBreak} from '../../../../component/chart/util';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
 
 interface DataPosition {
@@ -31,7 +31,6 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
-    labelWidth?: number;
     seriesImage: (index: number) => {};
     backgroundImage: any;
 }
@@ -41,7 +40,6 @@ export class ImageSpiderSeries extends SeriesBase {
     private features: Array<string>;
     private labelFmt: Function;
     private tick: ITick;
-    private labelWidth: number;
     private backgroundImage: any;
     private seriesImage: any;
 
@@ -53,7 +51,6 @@ export class ImageSpiderSeries extends SeriesBase {
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
-            this.labelWidth = configuration.labelWidth || 0;
             this.backgroundImage = configuration.backgroundImage;
             this.seriesImage = configuration.seriesImage;
         }
@@ -202,17 +199,15 @@ export class ImageSpiderSeries extends SeriesBase {
             })
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => {
-                let compare = 0;
+                let compare = d.labelValue.y;
                 if (width / 2 === d.labelValue.x && height / 2 < d.labelValue.y) {
-                    compare = 10;
+                    compare += 10;
                 }
-                return d.labelValue.y + compare;
+                return compare;
             })
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
             .each((data: any, i: number, node: any) => {
-                if (this.labelWidth) {
-                    textWrapping(select(node[i]), this.labelWidth, '#26282C');
-                }
+                textBreak(select(node[i]), /\^/, true);
             });
 
         const lineParser: Line<DataPosition> = line<DataPosition>()

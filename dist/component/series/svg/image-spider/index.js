@@ -5,7 +5,7 @@ import { line } from 'd3-shape';
 import { blueImage, spiderGuide } from '../../../../chart-images';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
-import { getTransformByArray, textWrapping } from '../../../../component/chart/util';
+import { getTransformByArray, textBreak } from '../../../../component/chart/util';
 import { defaultChartColors } from '../../../../component/chart/util/chart-util';
 var ImageSpiderSeries = /** @class */ (function (_super) {
     __extends(ImageSpiderSeries, _super);
@@ -17,7 +17,6 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
-            _this.labelWidth = configuration.labelWidth || 0;
             _this.backgroundImage = configuration.backgroundImage;
             _this.seriesImage = configuration.seriesImage;
         }
@@ -109,17 +108,15 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         })
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) {
-            var compare = 0;
+            var compare = d.labelValue.y;
             if (width / 2 === d.labelValue.x && height / 2 < d.labelValue.y) {
-                compare = 10;
+                compare += 10;
             }
-            return d.labelValue.y + compare;
+            return compare;
         })
             .text(function (d) { return (_this.labelFmt ? _this.labelFmt(d.name) : d.name); })
             .each(function (data, i, node) {
-            if (_this.labelWidth) {
-                textWrapping(select(node[i]), _this.labelWidth, '#26282C');
-            }
+            textBreak(select(node[i]), /\^/, true);
         });
         var lineParser = line()
             .x(function (d) { return d.x; })
