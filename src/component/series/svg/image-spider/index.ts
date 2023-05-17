@@ -297,7 +297,7 @@ export class ImageSpiderSeries extends SeriesBase {
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
             .attr('mask', (_: SpiderData, i: number) => `url(#${getSeriesInfo(chartData, i)})`)
-            .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
+            .attr('xlink:href', (_: SpiderData, i: number) => (this.seriesImage ? this.seriesImage(i) : blueImage))
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
             .attr('height', boxSize)

@@ -189,7 +189,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .data(chartData)
             .join(function (enter) { return enter.append('image').attr('class', 'spider-series'); }, function (update) { return update; }, function (exite) { return exite.remove(); })
             .attr('mask', function (_, i) { return "url(#".concat(getSeriesInfo(chartData, i), ")"); })
-            .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
+            .attr('xlink:href', function (_, i) { return (_this.seriesImage ? _this.seriesImage(i) : blueImage); })
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
             .attr('height', boxSize)
