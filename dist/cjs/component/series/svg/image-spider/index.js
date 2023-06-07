@@ -177,7 +177,9 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         var tempSize = pathGroup.node().getBBox();
         var boxSize = Math.max(tempSize.width, tempSize.height);
         seriesGroup
-            .append('svg:image')
+            .selectAll('.spider-guide')
+            .data(['spider-guide'])
+            .join(function (enter) { return enter.append('image').attr('class', 'spider-guide'); }, function (update) { return update; }, function (exite) { return exite.remove(); })
             .attr('xlink:href', this.backgroundImage || chart_images_1.spiderGuide)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)

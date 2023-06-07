@@ -275,7 +275,13 @@ export class ImageSpiderSeries extends SeriesBase {
         const boxSize = Math.max(tempSize.width, tempSize.height);
 
         seriesGroup
-            .append('svg:image')
+            .selectAll('.spider-guide')
+            .data(['spider-guide'])
+            .join(
+                (enter: Selection<EnterElement, any, any, any>) => enter.append('image').attr('class', 'spider-guide'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
             .attr('xlink:href', this.backgroundImage || spiderGuide)
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize + 2)
