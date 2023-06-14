@@ -33,6 +33,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.labelFmt = configuration.labelFmt || undefined;
             _this.backgroundImage = configuration.backgroundImage;
             _this.seriesImage = configuration.seriesImage;
+            _this.getSeriesInfo = configuration.getSeriesInfo;
         }
         return _this;
     }
@@ -147,13 +148,17 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .join(function (enter) {
             return enter
                 .append('mask')
-                .attr('id', function (_, i) { return getSeriesInfo(chartData, i, _this.seriesImage); })
+                .attr('id', function (_, i) {
+                return _this.getSeriesInfo ? _this.getSeriesInfo(i) : getSeriesInfo(chartData, i);
+            })
                 .append('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (update) {
             return update
-                .attr('id', function (_, i) { return getSeriesInfo(chartData, i, _this.seriesImage); })
+                .attr('id', function (_, i) {
+                return _this.getSeriesInfo ? _this.getSeriesInfo(i) : getSeriesInfo(chartData, i);
+            })
                 .select('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
@@ -202,7 +207,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .selectAll('.spider-series')
             .data(chartData)
             .join(function (enter) { return enter.append('image').attr('class', 'spider-series'); }, function (update) { return update; }, function (exite) { return exite.remove(); })
-            .attr('mask', function (_, i) { return "url(#".concat(getSeriesInfo(chartData, i, _this.seriesImage), ")"); })
+            .attr('mask', function (_, i) { return "url(#".concat(_this.getSeriesInfo ? _this.getSeriesInfo(i) : getSeriesInfo(chartData, i), ")"); })
             .attr('xlink:href', function (_, i) { return _this.seriesImage(i); })
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
@@ -236,9 +241,8 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
     return ImageSpiderSeries;
 }(SeriesBase));
 export { ImageSpiderSeries };
-function getSeriesInfo(chartData, index, imageInfo) {
-    var currentImage = imageInfo(index);
-    return chartData.length > 1 ? (currentImage.indexOf('green') > -1 ? 'green_angular' : 'blue_angular') : 'green_angular';
+function getSeriesInfo(chartData, index) {
+    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
 }
 function getAngle(index, featuresLength) {
     return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;

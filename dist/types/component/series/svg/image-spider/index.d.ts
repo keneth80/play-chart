@@ -19,6 +19,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     tick: ITick;
     seriesImage: (index: number) => {};
     backgroundImage: any;
+    getSeriesInfo: (index: number) => string;
 }
 export declare class ImageSpiderSeries extends SeriesBase {
     private domain;
@@ -27,6 +28,7 @@ export declare class ImageSpiderSeries extends SeriesBase {
     private tick;
     private backgroundImage;
     private seriesImage;
+    private getSeriesInfo;
     constructor(configuration: ImageSpiderSeriesConfiguration);
     setSvgElement(svg: Selection<BaseType, any, HTMLElement, any>, mainGroup: Selection<BaseType, any, HTMLElement, any>): void;
     drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize): void;

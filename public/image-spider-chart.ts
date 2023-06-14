@@ -17,22 +17,22 @@ const clear = () => {
 
 const spider = () => {
     const data = [
-        // {
-        //     A: 10,
-        //     B: 9,
-        //     C: 7,
-        //     D: 9,
-        //     E: 8,
-        //     F: 10
-        // }
         {
-            A: 3.3635058731329384,
-            B: 5.646006002989791,
-            C: 6.163650014222327,
-            D: 3.7752088657298373,
-            E: 7.479050824971674,
-            F: 4.4135923186340005
+            A: 10,
+            B: 9,
+            C: 7,
+            D: 9,
+            E: 8,
+            F: 10
         },
+        // {
+        //     A: 3.3635058731329384,
+        //     B: 5.646006002989791,
+        //     C: 6.163650014222327,
+        //     D: 3.7752088657298373,
+        //     E: 7.479050824971674,
+        //     F: 4.4135923186340005
+        // },
         {
             A: 3.07442653193206,
             B: 3.7409662936188095,
@@ -83,6 +83,9 @@ const spider = () => {
                 backgroundImage: spiderGuide,
                 seriesImage: (index: number) => {
                     return data.length > 1 ? (index === 1 ? greenImage : blueImage) : greenImage;
+                },
+                getSeriesInfo: (index: number) => {
+                    return index === 1 ? 'green_angular' : 'blue_angular';
                 }
             })
         ]

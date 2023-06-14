@@ -33,6 +33,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     tick: ITick;
     seriesImage: (index: number) => {};
     backgroundImage: any;
+    getSeriesInfo: (index: number) => string;
 }
 
 export class ImageSpiderSeries extends SeriesBase {
@@ -42,6 +43,7 @@ export class ImageSpiderSeries extends SeriesBase {
     private tick: ITick;
     private backgroundImage: any;
     private seriesImage: any;
+    private getSeriesInfo: any;
 
     constructor(configuration: ImageSpiderSeriesConfiguration) {
         super(configuration);
@@ -53,6 +55,7 @@ export class ImageSpiderSeries extends SeriesBase {
             this.labelFmt = configuration.labelFmt || undefined;
             this.backgroundImage = configuration.backgroundImage;
             this.seriesImage = configuration.seriesImage;
+            this.getSeriesInfo = configuration.getSeriesInfo;
         }
     }
 
@@ -228,13 +231,17 @@ export class ImageSpiderSeries extends SeriesBase {
                 (enter: Selection<EnterElement, any, any, any>) =>
                     enter
                         .append('mask')
-                        .attr('id', (_: SpiderData, i: number) => getSeriesInfo(chartData, i, this.seriesImage))
+                        .attr('id', (_: SpiderData, i: number) =>
+                            this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)
+                        )
                         .append('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (update: Selection<BaseType, any, BaseType, any>) =>
                     update
-                        .attr('id', (_: SpiderData, i: number) => getSeriesInfo(chartData, i, this.seriesImage))
+                        .attr('id', (_: SpiderData, i: number) =>
+                            this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)
+                        )
                         .select('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
@@ -298,7 +305,10 @@ export class ImageSpiderSeries extends SeriesBase {
                 (update: Selection<BaseType, any, BaseType, any>) => update,
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
-            .attr('mask', (_: SpiderData, i: number) => `url(#${getSeriesInfo(chartData, i, this.seriesImage)})`)
+            .attr(
+                'mask',
+                (_: SpiderData, i: number) => `url(#${this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)})`
+            )
             .attr('xlink:href', (_: SpiderData, i: number) => this.seriesImage(i))
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
@@ -334,9 +344,8 @@ export class ImageSpiderSeries extends SeriesBase {
     }
 }
 
-function getSeriesInfo(chartData: Array<any>, index: number, imageInfo: any) {
-    const currentImage: string = imageInfo(index);
-    return chartData.length > 1 ? (currentImage.indexOf('green') > -1 ? 'green_angular' : 'blue_angular') : 'green_angular';
+function getSeriesInfo(chartData: Array<any>, index: number) {
+    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
 }
 
 function getAngle(index: number, featuresLength: number): number {
