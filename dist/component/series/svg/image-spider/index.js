@@ -16,7 +16,7 @@ var __extends = (this && this.__extends) || (function () {
 import { select } from 'd3';
 import { scaleLinear } from 'd3-scale';
 import { line } from 'd3-shape';
-import { blueImage, spiderGuide } from '../../../../chart-images';
+import { spiderGuide } from '../../../../chart-images';
 import { ChartSelector } from '../../../../component/chart';
 import { SeriesBase } from '../../../../component/chart/series-base';
 import { getTransformByArray, textBreak } from '../../../../component/chart/util';
@@ -141,24 +141,25 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
         var seriesGroup = this.mainGroup
             .select(".".concat(this.selector, "-series-group"))
             .raise();
-        defs.selectAll('mask')
+        var tempMask = defs
+            .selectAll('mask')
             .data(chartData)
             .join(function (enter) {
             return enter
                 .append('mask')
-                .attr('id', function (_, i) { return getSeriesInfo(chartData, i); })
+                .attr('id', function (_, i) { return getSeriesInfo(chartData, i, _this.seriesImage); })
                 .append('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (update) {
             return update
-                .attr('id', function (_, i) { return getSeriesInfo(chartData, i); })
+                .attr('id', function (_, i) { return getSeriesInfo(chartData, i, _this.seriesImage); })
                 .select('path')
                 .datum(function (d) { return getPathCoordinates(d, _this.features, width, height, radialScale); })
                 .attr('d', lineParser);
         }, function (exite) { return exite.remove(); })
             .style('fill', '#fff')
-            .style('fill-opacity', 0.9);
+            .style('fill-opacity', 0);
         var pathGroup = this.mainGroup.select(".".concat(this.selector, "-guide-group"));
         pathGroup
             .selectAll('.spider-guide-path')
@@ -201,13 +202,18 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .selectAll('.spider-series')
             .data(chartData)
             .join(function (enter) { return enter.append('image').attr('class', 'spider-series'); }, function (update) { return update; }, function (exite) { return exite.remove(); })
-            .attr('mask', function (_, i) { return "url(#".concat(getSeriesInfo(chartData, i), ")"); })
-            .attr('xlink:href', function (_, i) { return (_this.seriesImage ? _this.seriesImage(i) : blueImage); })
+            .attr('mask', function (_, i) { return "url(#".concat(getSeriesInfo(chartData, i, _this.seriesImage), ")"); })
+            .attr('xlink:href', function (_, i) { return _this.seriesImage(i); })
             .attr('preserveAspectRatio', 'xMidYMid meet')
             .attr('width', boxSize)
             .attr('height', boxSize)
             .attr('x', width / 2 - boxSize / 2)
-            .attr('y', height / 2 - boxSize / 2);
+            .attr('y', height / 2 - boxSize / 2)
+            .style('opacity', 0)
+            .transition()
+            .duration(1000)
+            .style('opacity', 1);
+        tempMask.style('fill-opacity', 0.7);
         // seriesGroup
         //     .append('svg:image')
         //     .attr('xlink:href', this.seriesImage ? this.seriesImage(0) : blueImage)
@@ -230,8 +236,9 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
     return ImageSpiderSeries;
 }(SeriesBase));
 export { ImageSpiderSeries };
-function getSeriesInfo(chartData, index) {
-    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
+function getSeriesInfo(chartData, index, imageInfo) {
+    var currentImage = imageInfo(index);
+    return chartData.length > 1 ? (currentImage.indexOf('green') > -1 ? 'green_angular' : 'blue_angular') : 'green_angular';
 }
 function getAngle(index, featuresLength) {
     return Math.PI / 2 - (2 * Math.PI * index) / featuresLength;
