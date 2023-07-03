@@ -15,6 +15,7 @@
         "serve:ex:horizontal-pointer": "cross-env EXAMPLE=horizontal-pointer webpack-dev-server --stats-error-details --config ./webpack-config/webpack.config.example.js",
         "open-report": "webpack-bundle-analyzer dist/report/stats.json",
         "build": "rm -fr dist/* && cross-env NODE_ENV=production webpack && (npm run mjs & npm run cjs)",
+        "build-only-mjs": "rm -fr dist/* && cross-env NODE_ENV=production webpack && npm run mjs",
         "cjs": "ttsc -p tsconfig-cjs.json",
         "mjs": "ttsc -p tsconfig.json"
     },
@@ -24,16 +25,16 @@
     "types": "dist/types/index.d.ts",
     "exports": {
         ".": {
-            "import": "./dist/mjs/index.js",
-            "require": "./dist/cjs/index.js"
+            "import": "./dist/index.js"
         },
         "./spider": {
-            "import": "./dist/mjs/spider.js",
-            "require": "./dist/cjs/spider.js"
+            "import": "./dist/spider.js"
         },
         "./image-spider": {
-            "import": "./dist/mjs/image-spider.js",
-            "require": "./dist/cjs/image-spider.js"
+            "import": "./dist/image-spider.js"
+        },
+        "./chart-images": {
+            "import": "./dist/chart-images.js"
         }
     },
     "files": [
@@ -49,6 +50,9 @@
             ],
             "image-spider": [
                 "dist/types/image-spider.d.ts"
+            ],
+            "chart-images": [
+                "dist/types/chart-images.d.ts"
             ]
         }
     },
@@ -67,6 +71,7 @@
         "css-loader": "^6.7.1",
         "favicons": "^7.0.2",
         "favicons-webpack-plugin": "^6.0.0",
+        "file-loader": "^6.2.0",
         "html-webpack-plugin": "^5.5.0",
         "json-viewer-js": "^1.0.8",
         "lite-server": "^2.6.1",
@@ -85,6 +90,11 @@
         "webpack-cli": "^4.10.0",
         "webpack-dev-server": "^4.10.0",
         "webpack-merge": "^5.7.3"
+    },
+    "peerDependencies": {
+        "d3": "^7.8.2",
+        "object-hash": "^2.0.3",
+        "rxjs": "^6.5.5"
     },
     "dependencies": {
         "axios": "^0.21.1",

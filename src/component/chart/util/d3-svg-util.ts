@@ -1,17 +1,21 @@
+import {axisBottom, axisLeft, axisRight, axisTop} from 'd3-axis';
 import {color} from 'd3-color';
-import {select, Selection, BaseType} from 'd3-selection';
+import {BaseType, select, Selection} from 'd3-selection';
 import {line} from 'd3-shape';
-import {Placement} from '../chart-configuration';
-import {axisTop, axisLeft, axisRight, axisBottom} from 'd3-axis';
-import {ContainerSize, LegendItem} from '../chart.interface';
 import {Observable, Observer} from 'rxjs';
 import {delay} from 'rxjs/operators';
+import {Placement} from '../chart-configuration';
+import {ContainerSize, LegendItem} from '../chart.interface';
 
 export const getTransformByArray = (transform: string = 'translate(0, 0)'): string[] => {
     const translateString = transform.substring(transform.indexOf('translate('), transform.indexOf(')') + 1);
     let translate = ['0', '0'];
     const agent = navigator.userAgent.toLowerCase();
-    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) || agent.indexOf('msie') !== -1 || agent.indexOf('edge') !== -1) {
+    if (
+        (navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) ||
+        agent.indexOf('msie') !== -1 ||
+        agent.indexOf('edge') !== -1
+    ) {
         // ie일 경우
         const parseTranslate = translateString.replace('translate(', '').replace(')', '');
         translate = parseTranslate.split(/\s+/);
@@ -35,7 +39,11 @@ export const getTransformByArray = (transform: string = 'translate(0, 0)'): stri
 export const isIE = (): boolean => {
     let returnValue: boolean = false;
     const agent = navigator.userAgent.toLowerCase();
-    if ((navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) || agent.indexOf('msie') !== -1 || agent.indexOf('edge') !== -1) {
+    if (
+        (navigator.appName === 'Netscape' && agent.indexOf('trident') !== -1) ||
+        agent.indexOf('msie') !== -1 ||
+        agent.indexOf('edge') !== -1
+    ) {
         // ie일 경우
         returnValue = true;
     }
@@ -55,7 +63,7 @@ export const guid = () => {
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
-export const textWrapping = (text: any, width: number) => {
+export const textWrapping = (text: any, width: number, color = '#000') => {
     text.each((d: any, index: number, node: any) => {
         const targetText = select(node[index]);
         let lines = [];
@@ -87,18 +95,22 @@ export const textWrapping = (text: any, width: number) => {
                     .attr('x', x)
                     .attr('y', y)
                     .attr('dy', ++lineNumber * lineHeight + dy + 'em')
-                    .text(word);
+                    .text(word)
+                    .style('fill', color || '#000');
             }
         }
     });
 };
 
-export const textBreak = (target: any, pattern: any = /\s+/) => {
+export const textBreak = (target: any, pattern: any = /\s+/, isPosition = false) => {
     // /(\n|\r\n)/g
     target.each((d: any, index: number, node: any) => {
         const text = select(node[index]);
         let lines: any = [];
         const words = text.text().split(pattern).reverse();
+        if (words.length === 1) {
+            return;
+        }
         // const words = text.text().split('').reverse();
         let word = null;
         let lineNumber = 0;
@@ -106,12 +118,7 @@ export const textBreak = (target: any, pattern: any = /\s+/) => {
         const x = text.attr('x') ?? 0;
         const y = text.attr('y') ?? 0;
         const dy = parseFloat(text.attr('dy') ?? '0');
-        let tspan = text
-            .text(null)
-            .append('tspan')
-            .attr('x', x)
-            .attr('y', y)
-            .attr('dy', dy + 'em');
+        let tspan = text.text(null);
         while ((word = words.pop())) {
             lines.push(word);
             tspan.text(lines.join(''));
@@ -120,12 +127,18 @@ export const textBreak = (target: any, pattern: any = /\s+/) => {
             lines = [word];
             // line.length = 0;
             // line.concat([word]);
+
+            let compareY = lineNumber * lineHeight + dy;
+            if (isPosition) {
+                compareY = compareY - lineHeight / 2;
+            }
             tspan = text
                 .append('tspan')
                 .attr('x', x)
                 .attr('y', y)
-                .attr('dy', ++lineNumber * lineHeight + dy + 'em')
+                .attr('dy', compareY + 'em')
                 .text(word);
+            lineNumber++;
         }
     });
 };

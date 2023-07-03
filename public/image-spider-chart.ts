@@ -5,6 +5,7 @@ import {delay, tap} from 'rxjs/operators';
 import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
 import {ImageSpiderSeries} from '../src/component/series/svg/image-spider';
+import {spiderGuide, greenImage, blueImage, spiderGuideOpacitySvg, spiderGuideOpacity} from '../src/chart-images';
 
 let chart: PlayChart;
 
@@ -31,7 +32,7 @@ const spider = () => {
         //     D: 3.7752088657298373,
         //     E: 7.479050824971674,
         //     F: 4.4135923186340005
-        // }
+        // },
         {
             A: 3.07442653193206,
             B: 3.7409662936188095,
@@ -46,7 +47,7 @@ const spider = () => {
     const SWING_SPIDER = {
         A: '스윙궤도',
         B: '리듬',
-        C: '최고 속력구간',
+        C: '최고^속력 구간',
         D: '상-하체 꼬임',
         E: '스윙순서',
         F: '자세'
@@ -78,6 +79,13 @@ const spider = () => {
                 },
                 labelFmt: (d: string) => {
                     return SWING_SPIDER[d];
+                },
+                backgroundImage: spiderGuide,
+                seriesImage: (index: number) => {
+                    return data.length > 1 ? (index === 1 ? greenImage : blueImage) : greenImage;
+                },
+                getSeriesInfo: (index: number) => {
+                    return index === 1 ? 'green_angular' : 'blue_angular';
                 }
             })
         ]
