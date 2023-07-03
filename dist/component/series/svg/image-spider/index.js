@@ -188,6 +188,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             })
                 .attr('d', lineParser);
         }, function (exite) { return exite.remove(); })
+            .style('fill', 'none')
             .attr('stroke-width', 1)
             .attr('stroke-opacity', 0)
             .attr('stroke', '#fff');
