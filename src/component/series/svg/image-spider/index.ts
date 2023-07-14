@@ -2,7 +2,7 @@ import {BaseType, select} from 'd3';
 import {scaleLinear} from 'd3-scale';
 import {EnterElement, Selection} from 'd3-selection';
 import {Line, line} from 'd3-shape';
-import {blueImage, greenImage, spiderGuide} from '../../../../chart-images';
+import {spiderGuide} from '../../../../chart-images';
 import {ChartSelector} from '../../../../component/chart';
 import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
@@ -31,6 +31,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
+    labelDecoration?: (text: string) => string;
     seriesImage: (index: number) => {};
     backgroundImage: any;
     getSeriesInfo: (index: number) => string;
@@ -40,6 +41,7 @@ export class ImageSpiderSeries extends SeriesBase {
     private domain: [number, number];
     private features: Array<string>;
     private labelFmt: Function;
+    private labelDecoration: any;
     private tick: ITick;
     private backgroundImage: any;
     private seriesImage: any;
@@ -53,6 +55,7 @@ export class ImageSpiderSeries extends SeriesBase {
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
+            this.labelDecoration = configuration.labelDecoration || undefined;
             this.backgroundImage = configuration.backgroundImage;
             this.seriesImage = configuration.seriesImage;
             this.getSeriesInfo = configuration.getSeriesInfo;
@@ -200,6 +203,7 @@ export class ImageSpiderSeries extends SeriesBase {
                     return 'start';
                 }
             })
+            .style('text-decoration', (d) => (this.labelDecoration ? this.labelDecoration(d.name) : ''))
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => {
                 let compare = d.labelValue.y;
