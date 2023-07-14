@@ -31,6 +31,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
+            _this.labelDecoration = configuration.labelDecoration || undefined;
             _this.backgroundImage = configuration.backgroundImage;
             _this.seriesImage = configuration.seriesImage;
             _this.getSeriesInfo = configuration.getSeriesInfo;
@@ -121,6 +122,7 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
                 return 'start';
             }
         })
+            .style('text-decoration', function (d) { return (_this.labelDecoration ? _this.labelDecoration(d.name) : ''); })
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) {
             var compare = d.labelValue.y;
