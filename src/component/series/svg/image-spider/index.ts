@@ -31,6 +31,7 @@ export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
+    labelColor?: (text: string) => string;
     labelDecoration?: (text: string) => string;
     seriesImage: (index: number) => {};
     backgroundImage: any;
@@ -42,6 +43,7 @@ export class ImageSpiderSeries extends SeriesBase {
     private features: Array<string>;
     private labelFmt: Function;
     private labelDecoration: any;
+    private labelColor: any;
     private tick: ITick;
     private backgroundImage: any;
     private seriesImage: any;
@@ -56,6 +58,7 @@ export class ImageSpiderSeries extends SeriesBase {
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
             this.labelDecoration = configuration.labelDecoration || undefined;
+            this.labelColor = configuration.labelColor || undefined;
             this.backgroundImage = configuration.backgroundImage;
             this.seriesImage = configuration.seriesImage;
             this.getSeriesInfo = configuration.getSeriesInfo;
@@ -203,6 +206,7 @@ export class ImageSpiderSeries extends SeriesBase {
                     return 'start';
                 }
             })
+            .style('fill', (d) => (this.labelColor ? this.labelColor(d.name) : ''))
             .style('text-decoration', (d) => (this.labelDecoration ? this.labelDecoration(d.name) : ''))
             .attr('x', (d) => d.labelValue.x)
             .attr('y', (d) => {
