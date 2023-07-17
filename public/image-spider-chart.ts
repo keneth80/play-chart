@@ -85,8 +85,8 @@ const spider = () => {
                     tickCount: 5,
                     tickVisible: false
                 },
-                labelDecoration: (d: string) => {
-                    return d === 'F' ? 'line-through' : '';
+                labelColor: (d: string) => {
+                    return d === 'F' ? '#a7acb5' : '';
                 },
                 labelFmt: (d: string) => {
                     return SWING_SPIDER[d];
