@@ -219,9 +219,9 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', boxSize)
             .attr('x', width / 2 - boxSize / 2)
             .attr('y', height / 2 - boxSize / 2)
-            .style('opacity', 0)
-            .transition()
-            .duration(1000)
+            // .style('opacity', 0)
+            // .transition()
+            // .duration(1000)
             .style('opacity', 1);
         tempMask.style('fill-opacity', 0.7);
         // seriesGroup
