@@ -1,4 +1,4 @@
-# webpack example by library
+# D3 base Chart library
 
 ## npm install
 
