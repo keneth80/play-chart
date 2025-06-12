@@ -2,12 +2,14 @@ import { Selection, BaseType } from 'd3-selection';
 import { ChartConfiguration, AxisTitle, Axes } from './chart-configuration';
 import { SeriesConfiguration } from './series.interface';
 
-export enum DisplayType {
-    NORMAL = 'normal',
-    ZOOMIN = 'zoomin',
-    ZOOMOUT = 'zoomout',
-    RESIZE = 'resize'
-}
+export const DisplayType = {
+    NORMAL: 'normal',
+    ZOOMIN: 'zoomin',
+    ZOOMOUT: 'zoomout',
+    RESIZE: 'resize'
+} as const;
+
+type DisplayType = typeof DisplayType[keyof typeof DisplayType];
 
 export interface DisplayOption {
     index: number;
