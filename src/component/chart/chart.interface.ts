@@ -9,7 +9,7 @@ export const DisplayType = {
     RESIZE: 'resize'
 } as const;
 
-type DisplayType = typeof DisplayType[keyof typeof DisplayType];
+export type DisplayType = typeof DisplayType[keyof typeof DisplayType];
 
 export interface DisplayOption {
     index: number;

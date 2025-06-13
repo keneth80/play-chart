@@ -741,7 +741,7 @@ export class ChartBase<T = any> implements IChartBase {
                             {
                                 index,
                                 color: this.colors[index],
-                                displayType
+                                displayType: displayType
                             }
                         );
                     });

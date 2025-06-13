@@ -3,7 +3,7 @@ import {EnterElement, Selection} from 'd3-selection';
 import {scaleLinear} from 'd3-scale';
 import {Line, line} from 'd3-shape';
 import {ChartSelector} from '../../../../component/chart';
-import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
+import {ContainerSize, DisplayOption, DisplayType, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
@@ -73,7 +73,11 @@ export class SpiderSeries extends SeriesBase {
             );
     }
 
-    drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize) {
+    drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize, displayOption: DisplayOption) {
+        if (displayOption.displayType === DisplayType.ZOOMIN) {
+            return;
+        }
+
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
 
         const width = Math.min(geometry.width, geometry.height);
@@ -262,6 +266,10 @@ export class SpiderSeries extends SeriesBase {
             .attr('fill', 'white')
             .attr('fill-opacity', 0)
             .attr('opacity', 0.1);
+    }
+
+    updateSeries(displayType: typeof DisplayType[keyof typeof DisplayType] = DisplayType.NORMAL) {
+        // ... existing code ...
     }
 }
 

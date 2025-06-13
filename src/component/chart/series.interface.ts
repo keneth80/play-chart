@@ -8,7 +8,7 @@ export const SeriesType = {
     SVG_AREA: 'BasicAreaSeries'
 } as const;
 
-type SeriesType = typeof SeriesType[keyof typeof SeriesType];
+export type SeriesType = typeof SeriesType[keyof typeof SeriesType];
 
 export interface SeriesConfiguration {
     type?: SeriesType; // line, bar, plot, area....

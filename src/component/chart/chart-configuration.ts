@@ -8,7 +8,7 @@ export const Direction = {
     VERTICAL: 'vertical'
 } as const;
 
-type Direction = typeof Direction[keyof typeof Direction];
+export type Direction = typeof Direction[keyof typeof Direction];
 
 export const Placement = {
     TOP: 'top',
@@ -17,7 +17,7 @@ export const Placement = {
     RIGHT: 'right'
 } as const;
 
-type Placement = typeof Placement[keyof typeof Placement];
+export type Placement = typeof Placement[keyof typeof Placement];
 
 export const ScaleType = {
     NUMBER: 'number',
@@ -26,7 +26,7 @@ export const ScaleType = {
     POINT: 'point'
 } as const;
 
-type ScaleType = typeof ScaleType[keyof typeof ScaleType];
+export type ScaleType = typeof ScaleType[keyof typeof ScaleType];
 
 export const Align = {
     CENTER: 'center',
@@ -36,7 +36,7 @@ export const Align = {
     BOTTOM: 'bottom'
 } as const;
 
-type Align = typeof Align[keyof typeof Align];
+export type Align = typeof Align[keyof typeof Align];
 
 export const Shape = {
     LINE: 'line',
@@ -45,7 +45,7 @@ export const Shape = {
     NONE: 'none'
 } as const;
 
-type Shape = typeof Shape[keyof typeof Shape];
+export type Shape = typeof Shape[keyof typeof Shape];
 
 
 export interface AxisTitle {
