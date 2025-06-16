@@ -20,7 +20,8 @@
         "mjs": "ttsc -p tsconfig.json",
         "dev:charts": "webpack serve --config webpack-config/webpack.config.chart-deploy.js",
         "build:charts": "webpack --config webpack-config/webpack.config.chart-deploy.js",
-        "dev:spider": "webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
+        "dev:spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
+        "dev:image-spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=image-spider",
         "preview:charts": "serve dist",
         "build:spider": "webpack --config webpack-config/webpack.config.chart-deploy.js --env chart=spider"
     },

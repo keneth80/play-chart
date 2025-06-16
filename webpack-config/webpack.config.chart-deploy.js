@@ -4,8 +4,12 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = (env) => {
-    const chartName = env.chart || 'spider';
+    const chartName = (env && env.chart) ? env.chart : 'spider';
     const isDev = process.env.NODE_ENV === 'development';
+
+    console.log('Building chart:', chartName);
+    console.log('Environment:', env);
+    console.log('NODE_ENV:', process.env.NODE_ENV);
 
     return {
         mode: isDev ? 'development' : 'production',
@@ -22,7 +26,17 @@ module.exports = (env) => {
             rules: [
                 {
                     test: /\.tsx?$/,
-                    use: 'ts-loader',
+                    use: {
+                        loader: 'ts-loader',
+                        options: {
+                            transpileOnly: true,
+                            compilerOptions: {
+                                sourceMap: true,
+                                module: 'esnext',
+                                moduleResolution: 'node'
+                            }
+                        }
+                    },
                     exclude: /node_modules/
                 },
                 {
@@ -31,11 +45,22 @@ module.exports = (env) => {
                         MiniCssExtractPlugin.loader,
                         'css-loader'
                     ]
+                },
+                {
+                    test: /\.(png|jpg|jpeg|gif|svg)$/i,
+                    type: 'asset/resource',
+                    generator: {
+                        filename: 'assets/images/[name][ext]'
+                    }
                 }
             ]
         },
         resolve: {
-            extensions: ['.tsx', '.ts', '.js']
+            extensions: ['.tsx', '.ts', '.js'],
+            modules: [
+                'node_modules',
+                path.resolve(__dirname, '../src')
+            ]
         },
         optimization: {
             minimize: !isDev,
@@ -91,7 +116,16 @@ module.exports = (env) => {
             port: 9000,
             hot: true,
             open: true,
-            historyApiFallback: true
+            historyApiFallback: true,
+            client: {
+                overlay: {
+                    errors: true,
+                    warnings: false
+                }
+            }
+        },
+        stats: {
+            errorDetails: true
         }
     };
 };
