@@ -1,13 +1,14 @@
-import {BaseType, select} from 'd3-selection';
-import {EnterElement, Selection} from 'd3-selection';
+import {BaseType, select} from 'd3';
 import {scaleLinear} from 'd3-scale';
+import {EnterElement, Selection} from 'd3-selection';
 import {Line, line} from 'd3-shape';
+import {spiderGuide} from '../../../../chart-images';
 import {ChartSelector} from '../../../../component/chart';
-import {ContainerSize, DisplayOption, DisplayType, Scale} from '../../../../component/chart/chart.interface';
+import {ContainerSize, Scale} from '../../../../component/chart/chart.interface';
 import {SeriesBase} from '../../../../component/chart/series-base';
 import {SeriesConfiguration} from '../../../../component/chart/series.interface';
+import {getTransformByArray, textBreak} from '../../../../component/chart/util';
 import {defaultChartColors} from '../../../../component/chart/util/chart-util';
-import {getTransformByArray, textWrapping} from '../../../../component/chart/util';
 
 interface DataPosition {
     x: number;
@@ -24,23 +25,31 @@ export interface SpiderData {
     [key: string]: number;
 }
 
-export interface SpiderSeriesConfiguration extends SeriesConfiguration {
+export interface ImageSpiderSeriesConfiguration extends SeriesConfiguration {
     domain: [number, number];
     range: [number, number];
     features: Array<string>;
     labelFmt?: Function;
     tick: ITick;
-    labelWidth?: number;
+    labelColor?: (text: string) => string;
+    labelDecoration?: (text: string) => string;
+    seriesImage: (index: number) => {};
+    backgroundImage: any;
+    getSeriesInfo: (index: number) => string;
 }
 
-export class SpiderSeries extends SeriesBase {
+export class ImageSpiderSeries extends SeriesBase {
     private domain: [number, number];
     private features: Array<string>;
     private labelFmt: Function;
+    private labelDecoration: any;
+    private labelColor: any;
     private tick: ITick;
-    private labelWidth: number;
+    private backgroundImage: any;
+    private seriesImage: any;
+    private getSeriesInfo: any;
 
-    constructor(configuration: SpiderSeriesConfiguration) {
+    constructor(configuration: ImageSpiderSeriesConfiguration) {
         super(configuration);
         if (configuration) {
             this.selector = configuration.selector || 'spider';
@@ -48,7 +57,11 @@ export class SpiderSeries extends SeriesBase {
             this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             this.tick = configuration.tick;
             this.labelFmt = configuration.labelFmt || undefined;
-            this.labelWidth = configuration.labelWidth || 0;
+            this.labelDecoration = configuration.labelDecoration || undefined;
+            this.labelColor = configuration.labelColor || undefined;
+            this.backgroundImage = configuration.backgroundImage;
+            this.seriesImage = configuration.seriesImage;
+            this.getSeriesInfo = configuration.getSeriesInfo;
         }
     }
 
@@ -73,15 +86,10 @@ export class SpiderSeries extends SeriesBase {
             );
     }
 
-    drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize, displayOption: DisplayOption) {
-        if (displayOption.displayType === DisplayType.ZOOMIN) {
-            return;
-        }
-
+    drawSeries(chartData: any[], scales: Scale[], geometry: ContainerSize) {
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
 
         const width = Math.min(geometry.width, geometry.height);
-        console.log('width : ', width, geometry);
         const height = width;
         const radialScale = scaleLinear()
             .domain(this.domain)
@@ -160,10 +168,10 @@ export class SpiderSeries extends SeriesBase {
             .attr('x2', (d) => d.lineValue.x)
             .attr('y2', (d) => d.lineValue.y)
             .attr('stroke', 'black')
-            .attr('stroke-opacity', 0.2);
+            .attr('stroke-opacity', 0);
 
         // draw axis label
-        const axisLabel = this.mainGroup
+        this.mainGroup
             .selectAll('.axis-label')
             .data(featureData)
             .join(
@@ -198,43 +206,57 @@ export class SpiderSeries extends SeriesBase {
                     return 'start';
                 }
             })
+            .style('fill', (d) => (this.labelColor ? this.labelColor(d.name) : ''))
+            .style('text-decoration', (d) => (this.labelDecoration ? this.labelDecoration(d.name) : ''))
             .attr('x', (d) => d.labelValue.x)
-            .attr('y', (d) => d.labelValue.y)
+            .attr('y', (d) => {
+                let compare = d.labelValue.y;
+                if (width / 2 === d.labelValue.x && height / 2 < d.labelValue.y) {
+                    compare += 10;
+                }
+                return compare;
+            })
             .text((d) => (this.labelFmt ? this.labelFmt(d.name) : d.name))
             .each((data: any, i: number, node: any) => {
-                if (this.labelWidth) {
-                    textWrapping(select(node[i]), this.labelWidth);
-                }
+                textBreak(select(node[i]), /\^/, true);
             });
+
         const lineParser: Line<DataPosition> = line<DataPosition>()
             .x((d: DataPosition) => d.x)
             .y((d: DataPosition) => d.y);
 
         const colors = defaultChartColors();
-
+        const defs = this.svg.selectAll('defs');
         // draw the path element
-        const seriesGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-series-group`);
-        seriesGroup
-            .selectAll('.spider-path')
+        const seriesGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup
+            .select(`.${this.selector}-series-group`)
+            .raise();
+
+        const tempMask = defs
+            .selectAll('mask')
             .data(chartData)
             .join(
                 (enter: Selection<EnterElement, any, any, any>) =>
                     enter
+                        .append('mask')
+                        .attr('id', (_: SpiderData, i: number) =>
+                            this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)
+                        )
                         .append('path')
-                        .attr('class', 'spider-path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (update: Selection<BaseType, any, BaseType, any>) =>
                     update
+                        .attr('id', (_: SpiderData, i: number) =>
+                            this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)
+                        )
+                        .select('path')
                         .datum((d: SpiderData) => getPathCoordinates(d, this.features, width, height, radialScale))
                         .attr('d', lineParser as any),
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
-            .attr('stroke-width', 3)
-            .attr('stroke', (_: SpiderData, i: number) => colors[i])
-            .attr('fill', (_: SpiderData, i: number) => colors[i])
-            .attr('stroke-opacity', 1)
-            .attr('opacity', 0.7);
+            .style('fill', '#fff')
+            .style('fill-opacity', 0);
 
         const pathGroup: Selection<BaseType, any, HTMLElement, any> = this.mainGroup.select(`.${this.selector}-guide-group`);
         pathGroup
@@ -261,16 +283,55 @@ export class SpiderSeries extends SeriesBase {
                         .attr('d', lineParser),
                 (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
             )
+            .style('fill', 'none')
             .attr('stroke-width', 1)
-            .attr('stroke', 'black')
-            .attr('fill', 'white')
-            .attr('fill-opacity', 0)
-            .attr('opacity', 0.1);
-    }
+            .attr('stroke-opacity', 0)
+            .attr('stroke', '#fff');
 
-    updateSeries(displayType: typeof DisplayType[keyof typeof DisplayType] = DisplayType.NORMAL) {
-        // ... existing code ...
+        const tempSize = (pathGroup.node() as any).getBBox();
+        const boxSize = Math.max(tempSize.width, tempSize.height);
+
+        seriesGroup
+            .selectAll('.spider-guide')
+            .data(['spider-guide'])
+            .join(
+                (enter: Selection<EnterElement, any, any, any>) => enter.append('image').attr('class', 'spider-guide'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr('xlink:href', this.backgroundImage || spiderGuide)
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize + 2)
+            .attr('height', boxSize + 2)
+            .attr('x', width / 2 - boxSize / 2 - 1)
+            .attr('y', height / 2 - boxSize / 2 - 1);
+
+        seriesGroup
+            .selectAll('.spider-series')
+            .data(chartData)
+            .join(
+                (enter: Selection<EnterElement, any, any, any>) => enter.append('image').attr('class', 'spider-series'),
+                (update: Selection<BaseType, any, BaseType, any>) => update,
+                (exite: Selection<BaseType, any, BaseType, any>) => exite.remove()
+            )
+            .attr(
+                'mask',
+                (_: SpiderData, i: number) => `url(#${this.getSeriesInfo ? this.getSeriesInfo(i) : getSeriesInfo(chartData, i)})`
+            )
+            .attr('xlink:href', (_: SpiderData, i: number) => this.seriesImage(i))
+            .attr('preserveAspectRatio', 'xMidYMid meet')
+            .attr('width', boxSize)
+            .attr('height', boxSize)
+            .attr('x', width / 2 - boxSize / 2)
+            .attr('y', height / 2 - boxSize / 2)
+            .style('opacity', 1);
+
+        tempMask.style('fill-opacity', 0.7);
     }
+}
+
+function getSeriesInfo(chartData: Array<any>, index: number) {
+    return chartData.length > 1 ? (index === 1 ? 'green_angular' : 'blue_angular') : 'green_angular';
 }
 
 function getAngle(index: number, featuresLength: number): number {

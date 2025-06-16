@@ -5,13 +5,69 @@ import {delay, tap} from 'rxjs/operators';
 import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
 import {SpiderSeries} from '../src/component/series/svg/spider';
+import {SpiderChart, SpiderData} from '../src/component/series/svg/spider/spider-chart';
+import { IChartBase } from '../src/component/chart/chart.interface';
 
-let chart: PlayChart;
+let chart: IChartBase | null = null;
 
 const clear = () => {
-    if (chart) {
-        chart.clear();
+    if (chart !== null) {
+        (chart as IChartBase).clear();
     }
+};
+
+const spiderChartDraw = () => {
+    // 데이터 예제
+    const data: SpiderData[] = [
+        {
+            "Speed": 8,
+            "Handling": 7,
+            "Safety": 9,
+            "Comfort": 8,
+            "Efficiency": 7
+        },
+        {
+            "Speed": 6,
+            "Handling": 8,
+            "Safety": 7,
+            "Comfort": 9,
+            "Efficiency": 8
+        }
+    ];
+
+    // 기본 설정으로 차트 생성
+    const spiderChart = new SpiderChart({
+        selector: '#chart-div',
+        data,
+        margin: {
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+        },
+        domain: [0, 10],
+        range: [0, 250],
+        tickCount: 5,
+        tickVisible: true,
+        labelWidth: 60,
+        isResize: true
+    });
+    spiderChart.draw();
+
+    // 데이터 업데이트 예제
+    setTimeout(() => {
+        const newData: SpiderData[] = [
+            {
+                "Speed": 9,
+                "Handling": 8,
+                "Safety": 9,
+                "Comfort": 8,
+                "Efficiency": 8
+            }
+        ];
+        
+        spiderChart.setData(newData);
+    }, 3000); 
 };
 
 const spider = () => {
@@ -112,7 +168,7 @@ const buttonMapping = () => {
                 tap(() => {
                     switch (seriesId) {
                         case 'spider-chart':
-                            spider();
+                            spiderChartDraw();
                             break;
                         default:
                             break;
