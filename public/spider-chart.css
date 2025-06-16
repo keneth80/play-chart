@@ -186,3 +186,155 @@ pre > code {
     top: 100%;
     left: 0;
 }
+
+/* Spider Chart Container */
+#chart-div {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Axis Lines */
+.axis-line {
+    stroke: #b0b0b0;
+    stroke-width: 1.5;
+    stroke-opacity: 0.7;
+}
+
+/* Grid Lines */
+.spider-guide-path {
+    stroke: #d0d0d0;
+    stroke-width: 1.2;
+    stroke-opacity: 0.5;
+    fill: none;
+    stroke-dasharray: 4, 4;
+}
+
+/* Data Path */
+.spider-path {
+    stroke-width: 2.5;
+    fill-opacity: 0.2;
+    transition: all 0.3s ease;
+}
+
+.spider-path:hover {
+    stroke-width: 3;
+    fill-opacity: 0.3;
+}
+
+/* Axis Labels */
+.axis-label {
+    font-size: 13px;
+    fill: #444;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Tick Labels */
+.ticklabel {
+    font-size: 12px;
+    fill: #666;
+    font-weight: 500;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Tooltip */
+.tooltip {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 8px 12px;
+    font-size: 12px;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Loading Animation */
+.back-drop {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+}
+
+.back-drop.show {
+    opacity: 1;
+}
+
+/* Button Bar */
+.container-button-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.container-button-bar button {
+    background: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.container-button-bar button:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.container-button-bar button.active {
+    background: #007bff;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #chart-div {
+        padding: 10px;
+    }
+    
+    .axis-label {
+        font-size: 10px;
+    }
+    
+    .ticklabel {
+        font-size: 9px;
+    }
+}
+
+/* Animation for Data Updates */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.spider-path {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}

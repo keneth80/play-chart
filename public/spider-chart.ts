@@ -6,13 +6,13 @@ import {delayExcute} from '../src/component/chart/util';
 import {PlayChart} from '../src/component/play-chart';
 import {SpiderSeries} from '../src/component/series/svg/spider';
 import {SpiderChart, SpiderData} from '../src/component/series/svg/spider/spider-chart';
-import { IChartBase } from '../src/component/chart/chart.interface';
 
-let chart: IChartBase | null = null;
+let chart: SpiderChart | null = null;
 
 const clear = () => {
     if (chart !== null) {
-        (chart as IChartBase).clear();
+        chart.destroy();
+        chart = null;
     }
 };
 
@@ -36,23 +36,26 @@ const spiderChartDraw = () => {
     ];
 
     // 기본 설정으로 차트 생성
-    const spiderChart = new SpiderChart({
-        selector: '#chart-div',
-        data,
-        margin: {
-            left: 10,
-            right: 10,
-            top: 10,
-            bottom: 10
-        },
-        domain: [0, 10],
-        range: [0, 250],
-        tickCount: 5,
-        tickVisible: true,
-        labelWidth: 60,
-        isResize: true
-    });
-    spiderChart.draw();
+    if (!chart) {
+        chart = new SpiderChart({
+            selector: '#chart-div',
+            data,
+            margin: {
+                left: 10,
+                right: 10,
+                top: 10,
+                bottom: 10
+            },
+            domain: [0, 10],
+            range: [0, 250],
+            tickCount: 5,
+            tickVisible: true,
+            labelWidth: 60,
+            isResize: true
+        });
+    }
+    
+    chart.draw();
 
     // 데이터 업데이트 예제
     setTimeout(() => {
@@ -66,7 +69,7 @@ const spiderChartDraw = () => {
             }
         ];
         
-        spiderChart.setData(newData);
+        chart?.setData(newData);
     }, 3000); 
 };
 
