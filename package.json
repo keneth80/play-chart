@@ -1,7 +1,7 @@
 {
-    "name": "webpack-example-by-library",
+    "name": "play-chart",
     "version": "0.0.1",
-    "description": "webpack example by library",
+    "description": "play chart library",
     "scripts": {
         "serve": "webpack serve --port 8088",
         "ex:build:run:spider-chart": "cross-env NODE_ENV=example MODE=production EXAMPLE=spider-chart webpack --progress && ttsc && lite-server --baseDir=examples/spider-chart",

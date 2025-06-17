@@ -7,13 +7,7 @@ import {PlayChart} from '../../src/component/play-chart';
 import {ImageSpiderSeries} from '../../src/component/series/svg/image-spider';
 import {spiderGuide, greenImage, blueImage, spiderGuideOpacitySvg, spiderGuideOpacity} from '../../src/chart-images';
 
-let chart: PlayChart;
-
-const clear = () => {
-    if (chart) {
-        chart.clear();
-    }
-};
+let chart: PlayChart | null = null;
 
 const spider = () => {
     const data = [
@@ -63,7 +57,7 @@ const spider = () => {
     const features = Object.keys(data[0]).sort();
     console.log('features : ', features);
     // const labels = ['스윙궤도', '리듬', '최고 속력구간', '상-하체 꼬임', '스윙순서', '자세'];
-    const basicPieChart = new PlayChart({
+    chart = new PlayChart({
         selector: '#chart-div',
         data,
         margin: {
@@ -102,6 +96,12 @@ const spider = () => {
             })
         ]
     }).draw();
+};
+
+const clear = () => {
+    if (chart) {
+        chart?.clear();
+    }
 };
 
 const hideLoader = () => {

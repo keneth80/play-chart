@@ -60,8 +60,6 @@ export interface WebglTraceChartConfiguration extends BaseConfiguration {
 }
 
 export class PlayChart<T = any> extends ChartBase {
-    protected originalData: T[];
-
     constructor(configuration: ChartConfiguration) {
         super(configuration);
     }
