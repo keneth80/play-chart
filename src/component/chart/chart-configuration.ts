@@ -2,40 +2,51 @@ import {ISeries} from './series.interface';
 import {IFunctions} from './functions.interface';
 import {IOptions} from './options.interface';
 
-export enum Direction {
-    BOTH = 'both',
-    HORIZONTAL = 'horizontal',
-    VERTICAL = 'vertical'
-}
+export const Direction = {
+    BOTH: 'both',
+    HORIZONTAL: 'horizontal',
+    VERTICAL: 'vertical'
+} as const;
 
-export enum Placement {
-    TOP = 'top',
-    BOTTOM = 'bottom',
-    LEFT = 'left',
-    RIGHT = 'right'
-}
+export type Direction = typeof Direction[keyof typeof Direction];
 
-export enum ScaleType {
-    NUMBER = 'number',
-    TIME = 'time',
-    STRING = 'string',
-    POINT = 'point'
-}
+export const Placement = {
+    TOP: 'top',
+    BOTTOM: 'bottom',
+    LEFT: 'left',
+    RIGHT: 'right'
+} as const;
 
-export enum Align {
-    CENTER = 'center',
-    LEFT = 'left',
-    RIGHT = 'right',
-    TOP = 'top',
-    BOTTOM = 'bottom'
-}
+export type Placement = typeof Placement[keyof typeof Placement];
 
-export enum Shape {
-    LINE = 'line',
-    RECT = 'rect',
-    CIRCLE = 'circle',
-    NONE = 'none'
-}
+export const ScaleType = {
+    NUMBER: 'number',
+    TIME: 'time',
+    STRING: 'string',
+    POINT: 'point'
+} as const;
+
+export type ScaleType = typeof ScaleType[keyof typeof ScaleType];
+
+export const Align = {
+    CENTER: 'center',
+    LEFT: 'left',
+    RIGHT: 'right',
+    TOP: 'top',
+    BOTTOM: 'bottom'
+} as const;
+
+export type Align = typeof Align[keyof typeof Align];
+
+export const Shape = {
+    LINE: 'line',
+    RECT: 'rect',
+    CIRCLE: 'circle',
+    NONE: 'none'
+} as const;
+
+export type Shape = typeof Shape[keyof typeof Shape];
+
 
 export interface AxisTitle {
     align: string; // top, bottom, left, right, center default: center

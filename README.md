@@ -9,3 +9,32 @@ Run `npm install`
 Run `npm install -g lite-server`
 
 test
+
+# Play Chart
+
+Play Chart는 데이터 시각화를 위한 차트 라이브러리입니다.
+
+## 차트 종류
+
+- [Spider Chart](docs/spider-chart.md) - 스파이더 차트(레이더 차트) 컴포넌트
+
+## 설치
+
+```bash
+npm install @play-chart/core
+```
+
+## 빌드 후 결과물로 테스트 시 해당 커멘드 실행
+```bash
+npm link
+```
+
+## import 구문 추가
+```typescript
+import {PlayChart} from 'play-chart';
+```
+
+
+## 라이선스
+
+MIT

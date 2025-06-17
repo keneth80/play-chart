@@ -15,7 +15,7 @@ export interface ZoomConfiguration {
     delayTime?: number;
 }
 
-export interface BaseConfiguration {
+export interface BaseConfiguration<T = any> {
     selector: string;
 
     style?: ChartStyle;
@@ -36,7 +36,7 @@ export interface BaseConfiguration {
 
     // options?: any[]; // function list
 
-    data: any[]; // data
+    data: T[]; // data
 
     colors?: string[]; // custom color (default: d3.schemeCategory10, size: 10)
 
@@ -60,8 +60,6 @@ export interface WebglTraceChartConfiguration extends BaseConfiguration {
 }
 
 export class PlayChart<T = any> extends ChartBase {
-    protected originalData: T[];
-
     constructor(configuration: ChartConfiguration) {
         super(configuration);
     }
