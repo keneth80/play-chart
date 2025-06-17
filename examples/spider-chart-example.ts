@@ -1,4 +1,4 @@
-import { SpiderChart } from '../src/component/chart/spider-chart';
+import { SpiderChart } from 'play-chart/spider';
 
 // 데이터 예제
 const data = [
@@ -41,5 +41,5 @@ setTimeout(() => {
             "Efficiency": 8
         }
     ];
-    chart.setData(newData).update();
+    chart.setData(newData).draw();
 }, 2000); 

@@ -24,6 +24,17 @@ Play Chart는 데이터 시각화를 위한 차트 라이브러리입니다.
 npm install @play-chart/core
 ```
 
+## 빌드 후 테스트 시 해당 커멘드 실행
+```bash
+npm link
+```
+
+## import 구문 추가
+```typescript
+import {PlayChart} from 'play-chart';
+```
+
+
 ## 라이선스
 
 MIT
