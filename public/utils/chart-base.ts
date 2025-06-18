@@ -10,7 +10,7 @@ export abstract class ChartDemo {
     protected container: HTMLElement;
     protected config: Required<ChartDemoConfig>;
 
-    constructor(config: ChartDemoConfig) {
+    constructor(config: ChartDemoConfig, autoInit = true) {
         this.config = {
             width: '600px',
             height: '600px',
@@ -19,7 +19,7 @@ export abstract class ChartDemo {
             ...config
         };
         this.container = document.getElementById(config.containerId) || document.body;
-        this.init();
+        if (autoInit) this.init();
     }
 
     protected init() {
@@ -66,7 +66,7 @@ export abstract class ChartDemo {
         return controls;
     }
 
-    protected addControlButton(text: string, onClick: () => void, className?: string) {
+    protected addControlButton(text: string, onClick: () => void, className?: string) {        
         const button = document.createElement('button');
         button.textContent = text;
         if (className) {
