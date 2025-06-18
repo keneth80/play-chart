@@ -2,9 +2,9 @@ import {max} from 'd3-array';
 import {select} from 'd3-selection';
 import {Observable, Observer} from 'rxjs';
 import {delay, tap} from 'rxjs/operators';
-import {delayExcute} from '../src/component/chart/util';
-import {PlayChart} from '../src/component/play-chart';
-import {HorizontalPointerSeries} from '../src/component/series/svg/horizontal-pointer';
+import {delayExcute} from '../../src/component/chart/util';
+import {PlayChart} from '../../src/component/play-chart';
+import {HorizontalPointerSeries} from '../../src/component/series/svg/horizontal-pointer';
 
 let chart: PlayChart;
 

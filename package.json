@@ -22,8 +22,10 @@
         "build:charts": "webpack --config webpack-config/webpack.config.chart-deploy.js",
         "dev:spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
         "dev:image-spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=image-spider",
+        "dev:horizontal-pointer": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=horizontal-pointer",
         "preview:charts": "serve dist",
-        "build:spider": "webpack --config webpack-config/webpack.config.chart-deploy.js --env chart=spider"
+        "build:spider": "webpack --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
+        "copy:chart-css": "node cpy-config/copy-chart-css.js"
     },
     "author": "pretty9967@naver.com",
     "license": "ISC",
@@ -73,6 +75,7 @@
         "browser-sync-client": "^2.26.6",
         "clean-webpack-plugin": "^4.0.0",
         "copy-webpack-plugin": "^5.1.2",
+        "cpy-cli": "^5.0.0",
         "cross-env": "~5.2",
         "css-loader": "^6.7.1",
         "favicons": "^7.0.2",
