@@ -1,18 +1,6 @@
-# webpack example by library
+# PlayChart
 
-## npm install
-
-Run `npm install`
-
-## lite-server Global install
-
-Run `npm install -g lite-server`
-
-test
-
-# Play Chart
-
-Play Chart는 데이터 시각화를 위한 차트 라이브러리입니다.
+PlayChart는 데이터 시각화를 위한 차트 라이브러리입니다.
 
 ## 차트 종류
 
