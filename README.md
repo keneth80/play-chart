@@ -17,6 +17,8 @@ Play Chart는 데이터 시각화를 위한 차트 라이브러리입니다.
 ## 차트 종류
 
 - [Spider Chart](docs/spider-chart.md) - 스파이더 차트(레이더 차트) 컴포넌트
+- [Image Spider Chart](docs/image-spider-chart.md) - 이미지 마스크 스파이더 차트(레이더 차트) 컴포넌트
+- [Horizontal Pointer Chart](docs/horizontal-pointer-chart.md) - 가로 눈금 차트 컴포넌트
 
 ## 설치
 

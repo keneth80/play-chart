@@ -1,17 +1,17 @@
-# Spider Chart
+# Image Spider Chart
 
-스파이더 차트(레이더 차트)는 여러 변수의 데이터를 2차원 그래프로 표현하는 차트입니다. 각 축은 하나의 변수를 나타내며, 데이터 포인트는 각 축에서의 값을 선으로 연결하여 표시됩니다.
+Image Spider Chart(이미지 스파이더 차트)는 각 축에 이미지를 표시할 수 있는 확장형 스파이더(레이더) 차트입니다. 각 축은 하나의 변수를 나타내며, 데이터 포인트는 각 축에서의 값을 선으로 연결하여 표시되고, 축 끝에 이미지를 배치할 수 있습니다.
 
 ## 설치
 
 ```bash
-npm install play-chart/spider-chart
+npm install play-chart/image-spider-chart
 ```
 
 ## 기본 사용법
 
 ```typescript
-import { SpiderChart, SpiderData } from 'play-chart/spider-chart';
+import { ImageSpiderChart, SpiderData } from 'play-chart/image-spider-chart';
 
 // 데이터 정의
 const data: SpiderData[] = [
@@ -25,7 +25,7 @@ const data: SpiderData[] = [
 ];
 
 // 차트 생성
-const chart = new SpiderChart({
+const chart = new ImageSpiderChart({
     selector: '#chart',
     data,
     margin: {
@@ -38,14 +38,17 @@ const chart = new SpiderChart({
     range: [0, 250],
     tickCount: 5,
     tickVisible: true,
-    labelWidth: 60,
+    labelFmt: (d) => d,
+    seriesImage: (idx) => imageList[idx], // 각 축에 표시할 이미지 반환 함수
+    backgroundImage: spiderGuideImage,   // 배경에 사용할 이미지
+    getSeriesInfo: (idx) => `series-${idx}`,
     isResize: true
 }).draw();
 ```
 
 ## 설정 옵션
 
-### SpiderChartConfig
+### ImageSpiderChartConfig
 
 | 속성 | 타입 | 기본값 | 설명 |
 |------|------|--------|------|
@@ -56,8 +59,12 @@ const chart = new SpiderChart({
 | range | [number, number] | [0, 250] | 차트의 크기 범위 |
 | tickCount | number | 5 | 축의 눈금 개수 |
 | tickVisible | boolean | true | 눈금 표시 여부 |
-| labelWidth | number | 60 | 라벨의 최대 너비 |
 | labelFmt | (d: string) => string | - | 라벨 포맷팅 함수 |
+| labelColor | (text: string) => string | - | 라벨 색상 함수 |
+| labelDecoration | (text: string) => string | - | 라벨 데코레이션 함수 |
+| seriesImage | (index: number) => any | - | 각 축에 표시할 이미지 반환 함수 |
+| backgroundImage | any | - | 배경에 사용할 이미지 |
+| getSeriesInfo | (index: number) => string | - | 시리즈별 정보 반환 함수(마스킹 등) |
 | isResize | boolean | false | 리사이즈 지원 여부 |
 
 ### SpiderData
@@ -109,7 +116,7 @@ chart.destroy();
 
 ### 기본 차트
 ```typescript
-const chart = new SpiderChart({
+const chart = new ImageSpiderChart({
     selector: '#chart',
     data: [
         {
@@ -119,13 +126,16 @@ const chart = new SpiderChart({
             "Comfort": 8,
             "Efficiency": 7
         }
-    ]
+    ],
+    seriesImage: (idx) => imageList[idx],
+    backgroundImage: spiderGuideImage,
+    getSeriesInfo: (idx) => `series-${idx}`
 }).draw();
 ```
 
 ### 고급 설정
 ```typescript
-const chart = new SpiderChart({
+const chart = new ImageSpiderChart({
     selector: '#chart',
     data: data,
     margin: {
@@ -138,8 +148,12 @@ const chart = new SpiderChart({
     range: [0, 300],
     tickCount: 10,
     tickVisible: false,
-    labelWidth: 100,
     labelFmt: (d: string) => d.toUpperCase(),
+    labelColor: (text: string) => text === 'Speed' ? 'red' : 'black',
+    labelDecoration: (text: string) => text === 'Safety' ? 'underline' : '',
+    seriesImage: (idx) => imageList[idx],
+    backgroundImage: spiderGuideImage,
+    getSeriesInfo: (idx) => `series-${idx}`,
     isResize: true
 }).draw();
 ```
