@@ -44,7 +44,7 @@ export interface BaseConfiguration<T = any> {
 
     mouseGuideLine?: BasicSvgMouseGuideLineHandlerConfiguration;
 
-    options?: OptionConfiguration;
+    options?: OptionConfiguration[];
 
     displayDelay?: {
         delayTime: number;
