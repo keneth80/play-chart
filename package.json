@@ -24,6 +24,7 @@
         "dev:spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
         "dev:image-spider": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=image-spider",
         "dev:horizontal-pointer": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=horizontal-pointer",
+        "dev:big-data-line": "cross-env NODE_ENV=development webpack serve --config webpack-config/webpack.config.chart-deploy.js --env chart=big-data-line",
         "preview:charts": "serve dist",
         "build:spider": "webpack --config webpack-config/webpack.config.chart-deploy.js --env chart=spider",
         "copy:chart-css": "node cpy-config/copy-chart-css.js"
