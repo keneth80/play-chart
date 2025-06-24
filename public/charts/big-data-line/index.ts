@@ -130,7 +130,6 @@ class BigDataLineChartDemo extends ChartDemo {
         const chartConfiguration = {
             selector: '.chart-container',
             data: [],
-            title: {},
             tooltip: {
                 tooltipTextParser: (d: BasicCanvasWebglLineSeriesOneModel) => {
                     return `x: ${d[2].x} \ny: ${d[2].y}\ni: ${d[2].i}`;
