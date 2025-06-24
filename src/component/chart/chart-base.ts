@@ -1370,7 +1370,6 @@ export class ChartBase<T = any> implements IChartBase {
 
     drawTooltipContents(seriesList: ISeries[], tooltipTargetList: any[], tooltipTextParser: any) {
         this.tooltipGroup.style('display', null);
-
         const itemGroup = this.tooltipGroup
             .selectAll('g.tooltip-item-group')
             .data(tooltipTargetList)
