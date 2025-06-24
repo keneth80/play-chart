@@ -73,7 +73,7 @@ const webGLBigDataLineDraw = () => {
         xmax = 0;
         ymin = Infinity;
         ymax = 0;
-
+        console.log('series count: ', tracePoints.length);
         for (let i = 0; i < tracePoints.length; i++) {
             const tempData = tracePoints[i];
             const seriesData = tempData.data.rows.map((row: any[]) => {
@@ -105,17 +105,17 @@ const webGLBigDataLineDraw = () => {
                 );
             });
             // test data 늘리기
-            const tempRow: BasicCanvasWebglLineSeriesOneModel = seriesData[seriesData.length - 1];
-            for (let index = 1; index < 50000; index++) {
-                const x = tempRow.x + index;
-                const y = tempRow.y;
-                if (xmax < x) {
-                    xmax = x;
-                }
-                seriesData.push(
-                    new BasicCanvasWebglLineSeriesOneModel(x, y, i, tempRow)
-                );
-            }
+            // const tempRow: BasicCanvasWebglLineSeriesOneModel = seriesData[seriesData.length - 1];
+            // for (let index = 1; index < 500000; index++) {
+            //     const x = tempRow.x + index;
+            //     const y = tempRow.y;
+            //     if (xmax < x) {
+            //         xmax = x;
+            //     }
+            //     seriesData.push(
+            //         new BasicCanvasWebglLineSeriesOneModel(x, y, i, tempRow)
+            //     );
+            // }
             // type별 컬러 지정.
             const seriesColor = setSeriesColor(tempData);
             const configuration: BasicCanvasWebglLineSeriesOneConfiguration = {

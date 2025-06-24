@@ -207,7 +207,7 @@ export class BasicCanvasMouseZoomHandler extends FunctionsBase {
                 const mouseEvent = pointer(event, this.pointerCanvas.node() as any);
                 startX = mouseEvent[0];
                 startY = mouseEvent[1];
-
+                console.log('start : ', mouseEvent);
                 this.chartBase.zoomEventSubject.next({
                     type: 'dragstart',
                     position: mouseEvent,
@@ -218,7 +218,7 @@ export class BasicCanvasMouseZoomHandler extends FunctionsBase {
                 const mouseEvent = pointer(event, this.pointerCanvas.node() as any);
                 const moveX = mouseEvent[0];
                 const moveY = mouseEvent[1];
-
+                // console.log('drag : ', mouseEvent);
                 zoomContext.clearRect(0, 0, geometry.width, geometry.height);
 
                 if (this.direction === Direction.HORIZONTAL) {
@@ -275,6 +275,7 @@ export class BasicCanvasMouseZoomHandler extends FunctionsBase {
                 const mouseEvent = pointer(event, this.pointerCanvas.node() as any);
                 endX = mouseEvent[0];
                 endY = mouseEvent[1];
+                // console.log('end : ', mouseEvent);
                 zoomContext.clearRect(0, 0, geometry.width, geometry.height);
 
                 let isZoomArea = true;
