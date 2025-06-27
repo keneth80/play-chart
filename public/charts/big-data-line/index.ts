@@ -48,6 +48,7 @@ class BigDataLineChartDemo extends ChartDemo {
         let xmax = 0;
         let ymin = Infinity;
         let ymax = 0;
+        // series를 구분하기 위한 색상 지정
         const setSeriesColor = (item: any) => {
             const seriesFaultType = item.referenceYn === 'Y' ? '' : item.segmentStatus;
             if (item.referenceYn === 'N' && item.fdtaFaultYn === 'Y' && seriesFaultType === 'F' && item.primeYn === 'N') {
