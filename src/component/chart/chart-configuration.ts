@@ -8,12 +8,26 @@ export enum Direction {
     VERTICAL = 'vertical'
 }
 
+export type DirectionType = 'both' | 'horizontal' | 'vertical';
+
 export enum Placement {
     TOP = 'top',
     BOTTOM = 'bottom',
     LEFT = 'left',
     RIGHT = 'right'
 }
+
+export type PlacementType = 'top' | 'bottom' | 'left' | 'right';
+
+export enum Align {
+    LEFT = 'left',
+    CENTER = 'center',
+    RIGHT = 'right',
+    TOP = 'top',
+    BOTTOM = 'bottom'
+}
+
+export type AlignType = 'left' | 'center' | 'right' | 'top' | 'bottom';
 
 export enum ScaleType {
     NUMBER = 'number',
@@ -22,13 +36,7 @@ export enum ScaleType {
     POINT = 'point'
 }
 
-export enum Align {
-    CENTER = 'center',
-    LEFT = 'left',
-    RIGHT = 'right',
-    TOP = 'top',
-    BOTTOM = 'bottom'
-}
+export type ScaleTypeType = 'number' | 'time' | 'string' | 'point';
 
 export enum Shape {
     LINE = 'line',
@@ -37,9 +45,10 @@ export enum Shape {
     NONE = 'none'
 }
 
+export type ShapeType = 'line' | 'rect' | 'circle' | 'none';
+
 export interface AxisTitle {
-    align: string; // top, bottom, left, right, center default: center
-    content: string; // title text
+    text: string;
     style?: {
         size?: number;
         color?: string;
@@ -47,58 +56,54 @@ export interface AxisTitle {
     };
 }
 
+export interface GridLine {
+    color?: string;
+    dasharray?: number;
+    opacity?: number;
+}
+
+export interface ZeroLine {
+    color?: string;
+}
+
 export interface Axes {
-    field: any; // data propertie
-    type: string; // default: number, option: number or string or point or time => number: scaleLinear, time: scaleTime, string: scaleBand, point: scalePoint for range
-    placement: string; // position
-    domain?: any[]; // axis texts
+    field: string;
+    type: ScaleTypeType;
+    placement: PlacementType;
+    domain?: [number, number];
     padding?: number;
     visible?: boolean;
-    isRound?: boolean; // nice() call 여부
-    tickFormat?: any;
-    tickTextParser?: any;
+    isRound?: boolean;
+    tickFormat?: (value: any) => string;
+    tickTextParser?: (value: any) => string;
     tickSize?: number;
-    zeroLine?: {
-        color?: string;
-    };
-    gridLine?: {
-        color?: string;
-        dasharray?: number;
-        opacity?: number;
-    };
+    zeroLine?: ZeroLine;
+    gridLine?: GridLine;
     isZoom?: boolean;
-    min?: number; // only type is number
-    max?: number; // only type is number
+    min?: number;
+    max?: number;
     title?: AxisTitle;
 }
 
 export interface Margin {
-    top?: number;
-
-    left?: number;
-
-    bottom?: number;
-
-    right?: number;
-
+    top: number;
+    right: number;
+    bottom: number;
+    left: number;
     [key: string]: number;
 }
 
 export interface PlacementByElement {
     top: any;
-
     left: any;
-
     bottom: any;
-
     right: any;
-
     [key: string]: any;
 }
 
 export interface ChartTitle {
-    placement: string; // top, bottom, left, right
-    content: string; // title text
+    placement: PlacementType;
+    content: string;
     style?: {
         size?: number;
         color?: string;
@@ -107,60 +112,47 @@ export interface ChartTitle {
 }
 
 export interface ChartLegend {
-    placement: string; // top, bottom, left, right
-    isCheckBox?: boolean; // default: true
-    isAll?: boolean; // default: true
-    align?: string;
-    // shape?: string;
+    placement: PlacementType;
+    align: AlignType;
+    isCheckBox?: boolean;
+    isAll?: boolean;
 }
 
 export interface ChartTooltip {
-    tooltipTextParser?: any;
+    tooltipTextParser?: (data: any) => string;
     visible?: boolean;
-    isMultiple?: boolean; // default: false
-    eventType?: string; // click or mouseover
+    isMultiple?: boolean;
+    eventType?: 'click' | 'mouseover';
 }
 
 export interface ChartStyle {
     backgroundColor?: string;
+    fontFamily?: string;
+    fontSize?: number;
+    fontColor?: string;
+}
+
+export interface DisplayDelay {
+    delayTime: number;
 }
 
 export interface ChartConfiguration<T = any> {
     selector: string;
-
     style?: ChartStyle;
-
     tooltip?: ChartTooltip;
-
-    title?: ChartTitle; // chart title
-
-    isResize?: boolean; // default: true
-
+    title?: ChartTitle;
+    isResize?: boolean;
     isZoom?: boolean;
-
-    legend?: ChartLegend; // legend display
-
-    margin?: Margin; // custom margin
-
-    axes?: Axes[]; // axis list
-
-    series?: ISeries<T>[]; // series list
-
-    functions?: IFunctions<T>[]; // function list
-
-    options?: IOptions<T>[]; // function list
-
-    data: T; // data
-
-    colors?: string[]; // custom color (default: d3.schemeCategory10, size: 10)
-
-    min?: number; // only type is number
-
-    max?: number; // only type is number
-
-    calcField?: string; // for only min max configration
-
-    displayDelay?: {
-        delayTime: number;
-    };
+    legend?: ChartLegend;
+    margin?: Margin;
+    axes: Axes[];
+    series: ISeries<T>[];
+    functions?: IFunctions<T>[];
+    options?: IOptions<T>[];
+    data: T[];
+    colors?: string[];
+    min?: number;
+    max?: number;
+    calcField?: string;
+    displayDelay?: DisplayDelay;
 }

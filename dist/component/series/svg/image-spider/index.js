@@ -31,6 +31,8 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             _this.features = configuration.features || ['A', 'B', 'C', 'D', 'E'];
             _this.tick = configuration.tick;
             _this.labelFmt = configuration.labelFmt || undefined;
+            _this.labelDecoration = configuration.labelDecoration || undefined;
+            _this.labelColor = configuration.labelColor || undefined;
             _this.backgroundImage = configuration.backgroundImage;
             _this.seriesImage = configuration.seriesImage;
             _this.getSeriesInfo = configuration.getSeriesInfo;
@@ -121,6 +123,8 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
                 return 'start';
             }
         })
+            .style('fill', function (d) { return (_this.labelColor ? _this.labelColor(d.name) : ''); })
+            .style('text-decoration', function (d) { return (_this.labelDecoration ? _this.labelDecoration(d.name) : ''); })
             .attr('x', function (d) { return d.labelValue.x; })
             .attr('y', function (d) {
             var compare = d.labelValue.y;
@@ -215,9 +219,9 @@ var ImageSpiderSeries = /** @class */ (function (_super) {
             .attr('height', boxSize)
             .attr('x', width / 2 - boxSize / 2)
             .attr('y', height / 2 - boxSize / 2)
-            .style('opacity', 0)
-            .transition()
-            .duration(1000)
+            // .style('opacity', 0)
+            // .transition()
+            // .duration(1000)
             .style('opacity', 1);
         tempMask.style('fill-opacity', 0.7);
         // seriesGroup
