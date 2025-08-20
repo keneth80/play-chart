@@ -1,0 +1,340 @@
+pre {
+    resize: both;
+    outline: 1px solid #ccc;
+    padding: 5px;
+    margin: 5px;
+    width: 700px;
+    height: 200px;
+    padding: 10px;
+    margin: auto;
+    border: 2px solid #ccc;
+    overflow: auto;
+    text-align: left;
+}
+
+button {
+    height: 40px;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.string {
+    color: green;
+}
+
+.number {
+    color: darkorange;
+}
+
+.boolean {
+    color: blue;
+}
+
+.null {
+    color: magenta;
+}
+
+.key {
+    color: #999;
+}
+
+body {
+    margin: 0px;
+    height: 100%;
+}
+
+svg {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.container-main {
+    width: 100%;
+    height: 100%;
+}
+
+.container-button-bar {
+    line-height: 30px;
+    padding: 10px;
+}
+
+.loader {
+    z-index: 999;
+    border: 12px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 12px solid #3498db;
+
+    width: 50px;
+    height: 50px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+}
+
+.back-drop {
+    z-index: 998;
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    height: calc(100% - 50px);
+    background-color: #ccc;
+    opacity: 0.7;
+    display: none;
+}
+
+.back-drop.show {
+    display: block;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.container-chart-example {
+    position: absolute;
+    width: 100%;
+    height: 504px;
+}
+
+.container-control {
+    float: left;
+    width: 400px;
+    height: 100%;
+}
+
+.container-chart {
+    position: relative;
+    width: 100%;
+    height: 504px;
+    border: 2px solid #888;
+    background-color: #eee;
+    box-sizing: border-box;
+    float: right;
+}
+
+.container-control-item {
+    position: relative;
+    line-height: 30px;
+}
+
+.container-control-configuration {
+    border: 2px solid #888;
+    width: 390px;
+    height: 410px;
+}
+
+.container-control-configuration > pre {
+    margin: 0px;
+}
+
+pre > code {
+    height: 397px;
+}
+
+.container-control-item.button-apply {
+    text-align: right;
+    padding-right: 10px;
+}
+
+/* custom tooltip css */
+.chart-tip {
+    font: 10px sans-serif;
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.chart-tip:after {
+    box-sizing: border-box;
+    display: inline;
+    font-size: 10px;
+    width: 100%;
+    line-height: 1;
+    color: rgba(0, 0, 0, 0.8);
+    content: '\25BC';
+    position: absolute;
+    text-align: center;
+}
+
+/* Style northward tooltips differently */
+.chart-tip.n:after {
+    margin: -2px 0 0 0;
+    top: 100%;
+    left: 0;
+}
+
+/* Spider Chart Container */
+#chart-div {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+/* Axis Lines */
+.axis-line {
+    stroke: #b0b0b0;
+    stroke-width: 1.5;
+    stroke-opacity: 0.7;
+}
+
+/* Grid Lines */
+.spider-guide-path {
+    stroke: #d0d0d0;
+    stroke-width: 1.2;
+    stroke-opacity: 0.5;
+    fill: none;
+    stroke-dasharray: 4, 4;
+}
+
+/* Data Path */
+.spider-path {
+    stroke-width: 2.5;
+    fill-opacity: 0.2;
+    transition: all 0.3s ease;
+}
+
+.spider-path:hover {
+    stroke-width: 3;
+    fill-opacity: 0.3;
+}
+
+/* Axis Labels */
+.axis-label {
+    font-size: 13px;
+    fill: #444;
+    font-weight: 600;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Tick Labels */
+.ticklabel {
+    font-size: 12px;
+    fill: #666;
+    font-weight: 500;
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.8);
+}
+
+/* Tooltip */
+.tooltip {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 8px 12px;
+    font-size: 12px;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Loading Animation */
+.back-drop {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    transition: opacity 0.3s ease;
+}
+
+.back-drop.show {
+    opacity: 1;
+}
+
+/* Button Bar */
+.container-button-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.container-button-bar button {
+    background: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.container-button-bar button:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+.container-button-bar button.active {
+    background: #007bff;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    #chart-div {
+        padding: 10px;
+    }
+    
+    .axis-label {
+        font-size: 10px;
+    }
+    
+    .ticklabel {
+        font-size: 9px;
+    }
+}
+
+/* Animation for Data Updates */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.spider-path {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}

@@ -148,7 +148,7 @@ export const setChartTooltipByPosition = (
 ) => {
     const textElement: any = tooltipTarget
         .select('text')
-        .attr('dy', '.1em')
+        .attr('y', '.1em')
         .text(tooltipText);
 
     textBreak(textElement, '\n');
@@ -157,7 +157,7 @@ export const setChartTooltipByPosition = (
 
     const textWidth = Math.floor(parseTextNode.width) + 10;
     const textHeight = Math.floor(parseTextNode.height) + 10;
-
+    
     let xPosition = Math.round(position[0]) + tooltipPointerSize.width + (margin? margin.left : 0) + 5;
     let yPosition = Math.round(position[1]) - (textHeight + 5) + (margin ? margin.top : 0);
 

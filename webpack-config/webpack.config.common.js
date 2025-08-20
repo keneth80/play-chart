@@ -24,7 +24,8 @@ module.exports = {
     },
     devtool: 'inline-source-map',
     devServer: {
-        writeToDisk: true
+        writeToDisk: true,
+        watchFiles: ['public/**/*']
     },
     module: {
         rules: [

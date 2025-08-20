@@ -26,6 +26,12 @@
         "allowSyntheticDefaultImports": true,
         "resolveJsonModule": true,
         "baseUrl": ".",
+        "paths": {
+            "play-chart": ["./dist/types/index.d.ts"],
+            "play-chart/spider": ["./dist/types/spider.d.ts"],
+            "play-chart/image-spider": ["./dist/types/image-spider.d.ts"],
+            "play-chart/chart-images": ["./dist/types/chart-images.d.ts"]
+        },
         "outDir": "dist",
         "types": ["node"],
         "plugins": [
@@ -36,6 +42,6 @@
             }
         ]
     },
-    "include": ["./src/**/*"],
+    "include": ["./src/**/*", "./test-exports.ts"],
     "exclude": ["tmp", "dist", "./node_modules/**/*"]
 }

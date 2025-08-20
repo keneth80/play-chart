@@ -1,1 +1,1 @@
-{"version":3,"file":"chart.interface.js","sourceRoot":"","sources":["../../../src/component/chart/chart.interface.ts"],"names":[],"mappings":"AAIA,MAAM,CAAN,IAAY,WAKX;AALD,WAAY,WAAW;IACnB,gCAAiB,CAAA;IACjB,gCAAiB,CAAA;IACjB,kCAAmB,CAAA;IACnB,gCAAiB,CAAA;AACrB,CAAC,EALW,WAAW,KAAX,WAAW,QAKtB"}
+{"version":3,"file":"chart.interface.js","sourceRoot":"","sources":["../../../src/component/chart/chart.interface.ts"],"names":[],"mappings":"AAIA,MAAM,CAAC,IAAM,WAAW,GAAG;IACvB,MAAM,EAAE,QAAQ;IAChB,MAAM,EAAE,QAAQ;IAChB,OAAO,EAAE,SAAS;IAClB,MAAM,EAAE,QAAQ;CACV,CAAC"}

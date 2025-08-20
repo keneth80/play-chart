@@ -49,6 +49,9 @@ export class HorizontalPointerSeries extends SeriesBase {
     }
 
     drawSeries(chartData: any, scales: Scale[], geometry: ContainerSize) {
+        // chartData가 배열이면 첫 번째 값만 사용
+        const value = Array.isArray(chartData) ? chartData[0] : chartData;
+
         this.svg.select('.' + ChartSelector.ZOOM_SVG).lower();
         const chartMargin = this.chartBase.chartMargin;
         // circle group position setting
@@ -85,7 +88,7 @@ export class HorizontalPointerSeries extends SeriesBase {
 
         // circle render
         const circleData = {
-            x: scale(chartData),
+            x: scale(value),
             y: 0
         };
         circleGroup

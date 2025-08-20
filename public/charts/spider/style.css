@@ -1,0 +1,131 @@
+.demo-container {
+    padding: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.controls {
+    margin-bottom: 20px;
+}
+
+.controls button {
+    background: #f5f5f5;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    margin-right: 10px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.controls button:hover {
+    background: #e0e0e0;
+    transform: translateY(-1px);
+}
+
+#spider-chart {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 800px;
+    height: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.chart-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+#spider-chart-container {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#spider-chart-container svg {
+    max-width: 100%;
+    max-height: 100%;
+    margin: auto;
+}
+
+/* Spider Chart Specific Styles */
+.axis-line {
+    stroke: #b0b0b0;
+    stroke-width: 1.5;
+    stroke-opacity: 0.7;
+    stroke-dasharray: 4;
+}
+
+.spider-guide-path {
+    stroke: #d0d0d0;
+    stroke-width: 1.2;
+    stroke-opacity: 0.5;
+    fill: none;
+    stroke-dasharray: 4, 4;
+}
+
+.spider-path {
+    stroke-width: 2.5;
+    fill-opacity: 0.2;
+    transition: all 0.3s ease;
+}
+
+.spider-path:hover {
+    opacity: 1 !important;
+    stroke-width: 4px !important;
+}
+
+.axis-label {
+    font-size: 12px;
+    fill: #666;
+}
+
+.ticklabel {
+    font-size: 10px;
+    fill: #999;
+}
+
+/* Custom tooltip styles */
+.tooltip {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 12px;
+    pointer-events: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tooltip-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.tooltip-value {
+    color: #666;
+} 

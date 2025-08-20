@@ -12,7 +12,7 @@ export interface ZoomConfiguration {
     direction?: string;
     delayTime?: number;
 }
-export interface BaseConfiguration {
+export interface BaseConfiguration<T = any> {
     selector: string;
     style?: ChartStyle;
     tooltip?: ChartTooltip;
@@ -21,7 +21,7 @@ export interface BaseConfiguration {
     legend?: ChartLegend;
     margin?: Margin;
     axes?: Axes[];
-    data: any[];
+    data: T[];
     colors?: string[];
     zoom?: ZoomConfiguration;
     mouseGuideLine?: BasicSvgMouseGuideLineHandlerConfiguration;

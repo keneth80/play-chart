@@ -1,1 +1,1 @@
-{"version":3,"file":"series.interface.js","sourceRoot":"","sources":["../../../src/component/chart/series.interface.ts"],"names":[],"mappings":"AAIA,MAAM,CAAN,IAAY,UAIX;AAJD,WAAY,UAAU;IAClB,0CAA4B,CAAA;IAC5B,2DAA6C,CAAA;IAC7C,0CAA4B,CAAA;AAChC,CAAC,EAJW,UAAU,KAAV,UAAU,QAIrB"}
+{"version":3,"file":"series.interface.js","sourceRoot":"","sources":["../../../src/component/chart/series.interface.ts"],"names":[],"mappings":"AAIA,MAAM,CAAC,IAAM,UAAU,GAAG;IACtB,QAAQ,EAAE,iBAAiB;IAC3B,gBAAgB,EAAE,0BAA0B;IAC5C,QAAQ,EAAE,iBAAiB;CACrB,CAAC"}

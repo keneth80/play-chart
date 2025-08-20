@@ -11,7 +11,7 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        example: `./public/${example}.ts`
+        example: `./public/${example}/${example}.ts`
     },
     resolve: {
         extensions: ['.js', '.ts', '.css', '.scss', '...']
@@ -89,7 +89,7 @@ module.exports = {
         // }),
         new CopyWebpackPlugin([
             {
-                from: path.resolve(__dirname, `../public/${example}.css`),
+                from: path.resolve(__dirname, `../public/${example}/${example}.css`),
                 to: path.resolve(__dirname, `../examples/${example}/${example}.css`)
             }
         ]),
@@ -97,7 +97,7 @@ module.exports = {
         new HtmlWebPackPlugin({
             inject: true,
             title: example,
-            template: helpers.root() + `/public/${example}.html`,
+            template: helpers.root() + `/public/${example}/${example}.html`,
             filename: helpers.root() + `/examples/${example}/index.html`
         })
     ]

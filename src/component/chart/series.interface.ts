@@ -2,11 +2,13 @@ import {BaseType, Selection} from 'd3-selection';
 import {ChartBase} from './chart-base';
 import {ContainerSize, DisplayOption, Scale} from './chart.interface';
 
-export enum SeriesType {
-    SVG_LINE = 'BasicLineSeries',
-    SVG_VERTICAL_BAR = 'GroupedVerticalBarSeries',
-    SVG_AREA = 'BasicAreaSeries'
-}
+export const SeriesType = {
+    SVG_LINE: 'BasicLineSeries',
+    SVG_VERTICAL_BAR: 'GroupedVerticalBarSeries',
+    SVG_AREA: 'BasicAreaSeries'
+} as const;
+
+export type SeriesType = typeof SeriesType[keyof typeof SeriesType];
 
 export interface SeriesConfiguration {
     type?: SeriesType; // line, bar, plot, area....

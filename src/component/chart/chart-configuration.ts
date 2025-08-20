@@ -2,48 +2,51 @@ import {ISeries} from './series.interface';
 import {IFunctions} from './functions.interface';
 import {IOptions} from './options.interface';
 
-export enum Direction {
-    BOTH = 'both',
-    HORIZONTAL = 'horizontal',
-    VERTICAL = 'vertical'
-}
+export const Direction = {
+    BOTH: 'both',
+    HORIZONTAL: 'horizontal',
+    VERTICAL: 'vertical'
+} as const;
 
-export type DirectionType = 'both' | 'horizontal' | 'vertical';
+export type Direction = typeof Direction[keyof typeof Direction];
 
-export enum Placement {
-    TOP = 'top',
-    BOTTOM = 'bottom',
-    LEFT = 'left',
-    RIGHT = 'right'
-}
+export const Placement = {
+    TOP: 'top',
+    BOTTOM: 'bottom',
+    LEFT: 'left',
+    RIGHT: 'right'
+} as const;
 
-export type PlacementType = 'top' | 'bottom' | 'left' | 'right';
+export type Placement = typeof Placement[keyof typeof Placement];
 
-export enum Align {
-    LEFT = 'left',
-    CENTER = 'center',
-    RIGHT = 'right',
-    TOP = 'top',
-    BOTTOM = 'bottom'
-}
+export const ScaleType = {
+    NUMBER: 'number',
+    TIME: 'time',
+    STRING: 'string',
+    POINT: 'point'
+} as const;
 
-export type AlignType = 'left' | 'center' | 'right' | 'top' | 'bottom';
+export type ScaleType = typeof ScaleType[keyof typeof ScaleType];
 
-export enum ScaleType {
-    NUMBER = 'number',
-    TIME = 'time',
-    STRING = 'string',
-    POINT = 'point'
-}
+export const Align = {
+    CENTER: 'center',
+    LEFT: 'left',
+    RIGHT: 'right',
+    TOP: 'top',
+    BOTTOM: 'bottom'
+} as const;
 
-export type ScaleTypeType = 'number' | 'time' | 'string' | 'point';
+export type Align = typeof Align[keyof typeof Align];
 
-export enum Shape {
-    LINE = 'line',
-    RECT = 'rect',
-    CIRCLE = 'circle',
-    NONE = 'none'
-}
+export const Shape = {
+    LINE: 'line',
+    RECT: 'rect',
+    CIRCLE: 'circle',
+    NONE: 'none'
+} as const;
+
+export type Shape = typeof Shape[keyof typeof Shape];
+
 
 export type ShapeType = 'line' | 'rect' | 'circle' | 'none';
 
@@ -68,8 +71,8 @@ export interface ZeroLine {
 
 export interface Axes {
     field: string;
-    type: ScaleTypeType;
-    placement: PlacementType;
+    type: ScaleType;
+    placement: Placement;
     domain?: [number, number];
     padding?: number;
     visible?: boolean;
@@ -102,7 +105,7 @@ export interface PlacementByElement {
 }
 
 export interface ChartTitle {
-    placement: PlacementType;
+    placement: Placement;
     content: string;
     style?: {
         size?: number;
@@ -112,8 +115,8 @@ export interface ChartTitle {
 }
 
 export interface ChartLegend {
-    placement: PlacementType;
-    align: AlignType;
+    placement: Placement;
+    align: Align;
     isCheckBox?: boolean;
     isAll?: boolean;
 }
